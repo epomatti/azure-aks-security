@@ -9,6 +9,10 @@ resource "azurerm_kubernetes_cluster" "default" {
   local_account_disabled    = var.local_account_disabled
   automatic_channel_upgrade = "patch"
 
+  # TODO: Learn this
+  # https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes
+  azure_policy_enabled = true
+
   default_node_pool {
     name       = "default"
     node_count = 1

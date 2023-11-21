@@ -9,3 +9,7 @@ variable "aks_cluster_resource_id" {
 variable "storage_account_id" {
   type = string
 }
+
+variable "resource_group_id" {
+  type = string
+}

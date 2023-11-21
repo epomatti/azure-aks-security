@@ -49,4 +49,5 @@ module "entra_users" {
   entraid_tenant_domain   = var.entraid_tenant_domain
   aks_cluster_resource_id = module.aks.aks_cluster_id
   storage_account_id      = module.storage.id
+  resource_group_id       = azurerm_resource_group.default.id
 }

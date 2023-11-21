@@ -6,6 +6,11 @@ terraform init
 terraform apply -auto-approve
 ```
 
+```sh
+az aks get-credentials -n aks-cntrz -g rg-cntrz
+kubectl apply -f deploy.yaml
+```
+
 # Authentication options
 
 1. Local accounts with Kubernetes RBAC
