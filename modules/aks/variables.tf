@@ -13,3 +13,7 @@ variable "location" {
 variable "vm_size" {
   type = string
 }
+
+variable "local_account_disabled" {
+  type = bool
+}

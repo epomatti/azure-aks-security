@@ -29,5 +29,6 @@ module "aks" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
 
-  vm_size = var.aks_vm_size
+  vm_size                = var.aks_vm_size
+  local_account_disabled = var.aks_local_account_disabled
 }
