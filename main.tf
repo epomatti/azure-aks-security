@@ -38,8 +38,15 @@ module "aks" {
   azure_rbac_enabled     = var.aks_azure_rbac_enabled
 }
 
+module "storage" {
+  source              = "./modules/storage"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+}
+
 module "entra_users" {
   source                  = "./modules/entra/users"
   entraid_tenant_domain   = var.entraid_tenant_domain
   aks_cluster_resource_id = module.aks.aks_cluster_id
+  storage_account_id      = module.storage.id
 }

@@ -5,3 +5,7 @@ variable "entraid_tenant_domain" {
 variable "aks_cluster_resource_id" {
   type = string
 }
+
+variable "storage_account_id" {
+  type = string
+}

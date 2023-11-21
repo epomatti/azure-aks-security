@@ -11,3 +11,9 @@ resource "azurerm_role_assignment" "aks_cluster_admin" {
   role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
   principal_id         = azuread_user.aks_cluster_admin.id
 }
+
+resource "azurerm_role_assignment" "storage" {
+  scope                = var.storage_account_id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azuread_user.aks_cluster_admin.id
+}
