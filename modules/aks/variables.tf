@@ -17,3 +17,7 @@ variable "vm_size" {
 variable "local_account_disabled" {
   type = bool
 }
+
+variable "azure_rbac_enabled" {
+  type = bool
+}

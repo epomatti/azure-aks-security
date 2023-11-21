@@ -35,6 +35,7 @@ module "aks" {
 
   vm_size                = var.aks_vm_size
   local_account_disabled = var.aks_local_account_disabled
+  azure_rbac_enabled     = var.aks_azure_rbac_enabled
 }
 
 module "entra_users" {

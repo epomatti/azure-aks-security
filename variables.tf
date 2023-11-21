@@ -13,3 +13,7 @@ variable "entraid_tenant_domain" {
 variable "aks_local_account_disabled" {
   type = bool
 }
+
+variable "aks_azure_rbac_enabled" {
+  type = bool
+}

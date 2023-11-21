@@ -21,6 +21,6 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   azure_active_directory_role_based_access_control {
     managed            = true # Azure will create and manage the Service Principal
-    azure_rbac_enabled = false
+    azure_rbac_enabled = var.azure_rbac_enabled
   }
 }
