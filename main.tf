@@ -37,8 +37,8 @@ module "aks" {
   local_account_disabled = var.aks_local_account_disabled
 }
 
-module "aad_users" {
-  source                  = "./modules/aad/users"
+module "entra_users" {
+  source                  = "./modules/entra/users"
   entraid_tenant_domain   = var.entraid_tenant_domain
   aks_cluster_resource_id = module.aks.aks_cluster_id
 }
