@@ -12,7 +12,7 @@ terraform {
 }
 
 locals {
-  workload = "cntrz"
+  workload = "petzexpress"
 }
 
 resource "azurerm_resource_group" "default" {

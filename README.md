@@ -1,14 +1,23 @@
 # Azure AKS Security
 
 
+> ℹ️ Using Application Gateway for Containers (Preview). Check the documentation for [prerequisites]().
+
 ```sh
 terraform init
 terraform apply -auto-approve
 ```
 
 ```sh
-az aks get-credentials -n aks-cntrz -g rg-cntrz
-kubectl apply -f deploy.yaml
+kubectl create namespace helloworld
+```
+
+
+```sh
+az aks approuting enable -g rg-petzexpress -n aks-petzexpress
+az aks get-credentials -n aks-petzexpress -g rg-petzexpress
+kubectl apply -f deploy.yaml -n helloworld
+kubectl get ingress
 ```
 
 # Authentication options

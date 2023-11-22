@@ -4,7 +4,11 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
-        "nginx"
+        "azuredocs",
+        "helloworld",
+        "kubernetes",
+        "nginx",
+        "webapprouting"
     ],
     "ignoreWords": [],
     "import": []

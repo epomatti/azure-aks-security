@@ -5,6 +5,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   node_resource_group = "rg-aks-${var.workload}"
   dns_prefix          = "aks${var.workload}"
 
+  # Not recommended for Production
+  http_application_routing_enabled = true
+
   sku_tier                  = "Free"
   local_account_disabled    = var.local_account_disabled
   automatic_channel_upgrade = "patch"
