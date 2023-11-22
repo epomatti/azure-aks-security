@@ -10,13 +10,16 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     steps:
     - uses: docker/setup-qemu-action@v3
       with:
           platforms: 'arm64,arm'
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build ./app --file Dockerfile.arm64v8 --tag my-image-name:arm64
+      run: docker build . --file Dockerfile.arm64v8 --tag my-image-name:arm64
 
     - uses: docker/login-action@v3
       with:
