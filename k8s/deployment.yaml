@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - name: aks-helloworld
-          image: mcr.microsoft.com/mcr/hello-world:arm64
+          image: epomatti/aks-security-app:arm64
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: TITLE
               value: "Welcome to Azure Kubernetes Service (AKS)"

@@ -17,10 +17,12 @@ az aks approuting enable -g rg-petzexpress -n aks-petzexpress
 az aks get-credentials -n aks-petzexpress -g rg-petzexpress
 
 kubectl create namespace helloworld
-kubectl apply -f k8s/deployment.yaml -n helloworld
-kubectl apply -f k8s/service.yaml -n helloworld
-kubectl apply -f k8s/ingress.yaml -n helloworld
-kubectl get ingress -n helloworld
+kubectl config set-context --current --namespace=helloworld
+
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/ingress.yaml
+kubectl get ingress
 ```
 
 ## Authentication options
