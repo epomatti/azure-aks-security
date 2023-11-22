@@ -1,26 +1,29 @@
 # Azure AKS Security
 
+AKS security features implemented.
 
-> ℹ️ Using Application Gateway for Containers (Preview). Check the documentation for [prerequisites]().
+Create the cluster:
 
 ```sh
 terraform init
 terraform apply -auto-approve
 ```
 
-```sh
-kubectl create namespace helloworld
-```
-
+Configure the Kubernetes cluster:
 
 ```sh
 az aks approuting enable -g rg-petzexpress -n aks-petzexpress
+
 az aks get-credentials -n aks-petzexpress -g rg-petzexpress
-kubectl apply -f deploy.yaml -n helloworld
-kubectl get ingress
+
+kubectl create namespace helloworld
+kubectl apply -f k8s/deployment.yaml -n helloworld
+kubectl apply -f k8s/service.yaml -n helloworld
+kubectl apply -f k8s/ingress.yaml -n helloworld
+kubectl get ingress -n helloworld
 ```
 
-# Authentication options
+## Authentication options
 
 1. Local accounts with Kubernetes RBAC
 2. Entra ID authentication with Kubernetes RBAC
