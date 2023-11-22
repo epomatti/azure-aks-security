@@ -6,6 +6,9 @@ on:
       - 'app/**'
   workflow_dispatch:
 
+env:
+  REPOSITORY: aks-security-app:arm64
+
 jobs:
 
   build:
@@ -19,7 +22,7 @@ jobs:
           platforms: 'arm64,arm'
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile.arm64v8 --tag my-image-name:arm64
+      run: docker build . --file Dockerfile.arm64v8 --tag $REPOSITORY
 
     - uses: docker/login-action@v3
       with:
@@ -27,6 +30,6 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - run: |
-        docker tag aks-security-app:arm64 epomatti/aks-security-app:arm64
-        docker push aks-security-app:arm64
+        docker tag $REPOSITORY epomatti/$REPOSITORY
+        docker push $REPOSITORY
   
