@@ -18,9 +18,19 @@ resource "azuread_user" "aks_contributor" {
   password            = var.password
 }
 
-resource "azurerm_role_assignment" "aks_contributor" {
+locals {
+  helloworld_namespace = "helloworld"
+}
+
+resource "azurerm_role_assignment" "writer" {
+  scope                = "${var.aks_cluster_resource_id}/namespaces/${local.helloworld_namespace}}"
+  role_definition_name = "Azure Kubernetes Service RBAC Writer"
+  principal_id         = azuread_user.aks_contributor.id
+}
+
+resource "azurerm_role_assignment" "aks_cluster_user" {
   scope                = var.aks_cluster_resource_id
-  role_definition_name = "Azure Kubernetes Service Contributor Role"
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
   principal_id         = azuread_user.aks_contributor.id
 }
 
