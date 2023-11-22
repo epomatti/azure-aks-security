@@ -15,7 +15,7 @@ resource "azuread_user" "aks_contributor" {
   user_principal_name = "AKSContributor@${var.entraid_tenant_domain}"
   display_name        = "AKS Contributor"
   mail_nickname       = "AKSContributor"
-  password            = "P4ssw0rd.1234"
+  password            = var.password
 }
 
 resource "azurerm_role_assignment" "aks_contributor" {

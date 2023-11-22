@@ -27,4 +27,11 @@ resource "azurerm_kubernetes_cluster" "default" {
     managed            = true # Azure will create and manage the Service Principal
     azure_rbac_enabled = var.azure_rbac_enabled
   }
+
+  lifecycle {
+    ignore_changes = [
+      # Application routing will be enabled via CLI.
+      web_app_routing
+    ]
+  }
 }

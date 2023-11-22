@@ -10,6 +10,11 @@ variable "entraid_tenant_domain" {
   type = string
 }
 
+variable "generic_password" {
+  type      = string
+  sensitive = true
+}
+
 variable "aks_local_account_disabled" {
   type = bool
 }
