@@ -20,9 +20,3 @@ resource "azurerm_storage_share" "file_share" {
   storage_account_name = azurerm_storage_account.default.name
   quota                = 50
 }
-
-# resource "azurerm_storage_container" "cloudshell" {
-#   name                  = "cloudshell"
-#   storage_account_name  = azurerm_storage_account.default.name
-#   container_access_type = "private"
-# }
