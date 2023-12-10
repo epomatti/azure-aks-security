@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.81.0"
+      version = "3.84.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -27,6 +27,13 @@ resource "azurerm_resource_group" "default" {
 #   location            = azurerm_resource_group.default.location
 # }
 
+module "acr" {
+  source              = "./modules/acr"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+}
+
 module "aks" {
   source              = "./modules/aks"
   workload            = local.workload
@@ -36,6 +43,7 @@ module "aks" {
   vm_size                = var.aks_vm_size
   local_account_disabled = var.aks_local_account_disabled
   azure_rbac_enabled     = var.aks_azure_rbac_enabled
+  acr_id                 = module.acr.id
 }
 
 module "storage" {

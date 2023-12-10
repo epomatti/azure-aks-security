@@ -21,3 +21,7 @@ variable "local_account_disabled" {
 variable "azure_rbac_enabled" {
   type = bool
 }
+
+variable "acr_id" {
+  type = string
+}

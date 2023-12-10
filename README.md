@@ -41,7 +41,7 @@ Enable Entra authentication with Azure RBAC to use RBAC [built-in][rbac-built-in
 
 Kubernetes RBAC details can be found in the [documentation][k8s-rbac].
 
-# RBAC access to secrets
+## RBAC access to secrets
 
 To test Azure RBAC access, login with the `AKSContributor` user to the Portal and connect with Cloud Shell.
 
@@ -73,9 +73,19 @@ az role assignment create --role "Azure Kubernetes Service RBAC Reader" --assign
 
 This thread also has an example for role binding: https://stackoverflow.com/a/69719593/3231778
 
-# RBAC: Fleet Manager x Service
+## RBAC: Fleet Manager x Service
 
 Within Azure Kubernetes RBAC [built-in][rbac-built-in-roles] roles.
+
+## ACR
+
+A Container Registry will be created and attached to the cluster.
+
+To import an image to the registry:
+
+```sh
+az acr import  -n <acr-name> --source docker.io/library/nginx:latest --image nginx:v1
+```
 
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
