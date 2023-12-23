@@ -14,6 +14,14 @@ variable "vm_size" {
   type = string
 }
 
+variable "vnet_id" {
+  type = string
+}
+
+variable "node_pool_subnet_id" {
+  type = string
+}
+
 variable "local_account_disabled" {
   type = bool
 }

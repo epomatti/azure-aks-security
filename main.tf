@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.84.0"
+      version = "3.85.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "2.46.0"
+      version = "2.47.0"
     }
   }
 }
@@ -20,12 +20,12 @@ resource "azurerm_resource_group" "default" {
   location = var.location
 }
 
-# module "vnet" {
-#   source              = "./modules/vnet"
-#   workload            = local.workload
-#   resource_group_name = azurerm_resource_group.default.name
-#   location            = azurerm_resource_group.default.location
-# }
+module "vnet" {
+  source              = "./modules/vnet"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+}
 
 module "acr" {
   source              = "./modules/acr"
@@ -41,6 +41,8 @@ module "aks" {
   location            = azurerm_resource_group.default.location
 
   vm_size                = var.aks_vm_size
+  vnet_id                = module.vnet.vnet_id
+  node_pool_subnet_id    = module.vnet.node_pool_subnet_id
   local_account_disabled = var.aks_local_account_disabled
   azure_rbac_enabled     = var.aks_azure_rbac_enabled
   acr_id                 = module.acr.id

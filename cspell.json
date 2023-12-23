@@ -11,6 +11,7 @@
         "kubernetes",
         "nginx",
         "petzexpress",
+        "VNET",
         "webapprouting"
     ],
     "ignoreWords": [],

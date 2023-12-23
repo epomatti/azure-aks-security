@@ -87,6 +87,11 @@ To import an image to the registry:
 az acr import  -n <acr-name> --source docker.io/library/nginx:latest --image nginx:v1
 ```
 
+## Virtual network (VNET) integration
+
+https://learn.microsoft.com/en-us/samples/azure-samples/private-aks-cluster-terraform-devops/private-aks-cluster-terraform-devops/
+https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal
+
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [rbac-built-in-roles]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
