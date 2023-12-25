@@ -97,6 +97,11 @@ https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal
 
 https://learn.microsoft.com/en-us/training/modules/plan-azure-kubernetes-service-deployment/7-network-access-azure-kubernetes-service
 
+## Network modes
+
+- Kubenet: NAT to pods. (can use VNET, or let it create)
+- CNI: POD real IPs, but external to VNET will do NAT to the nodes.
+
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [rbac-built-in-roles]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
