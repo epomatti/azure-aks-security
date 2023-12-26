@@ -102,8 +102,34 @@ https://learn.microsoft.com/en-us/training/modules/plan-azure-kubernetes-service
 - Kubenet: NAT to pods. (can use VNET, or let it create)
 - CNI: POD real IPs, but external to VNET will do NAT to the nodes.
 
+## Entra ID integration
+
+Information summarized from the [documentation][1]:
+
+Methods:
+
+- Integrated with Kubernetes RBAC
+- Azure RBAC
+
+Principals:
+
+- Service Principals
+- Managed Identities (recommended)
+
+Default identities:
+
+- Cluster identity
+- Kubelet identity
+
+Common permissions:
+
+- Network Contributor
+- Monitoring Metrics Publisher
+- AcrPull
+
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [rbac-built-in-roles]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
 [aks-perm]: https://learn.microsoft.com/en-us/azure/aks/control-kubeconfig-access#available-permissions-for-cluster-roles
 [azure-rbac-builtin-roles]: https://learn.microsoft.com/en-us/azure/aks/concepts-identity#built-in-roles
+[1]: https://learn.microsoft.com/en-us/training/modules/deploy-azure-kubernetes-service-cluster/6-integrate-azure-active-directory-cluster

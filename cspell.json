@@ -8,6 +8,7 @@
         "azuredocs",
         "epomatti",
         "helloworld",
+        "Kubelet",
         "Kubenet",
         "kubernetes",
         "nginx",
