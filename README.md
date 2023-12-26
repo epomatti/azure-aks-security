@@ -128,6 +128,10 @@ Common permissions:
 - Monitoring Metrics Publisher
 - AcrPull
 
+## Host-based encryption
+
+https://learn.microsoft.com/en-us/training/modules/configure-azure-kubernetes-service-cluster/5-host-based-encryption-azure-kubernetes-service
+
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [rbac-built-in-roles]: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
