@@ -91,6 +91,7 @@ az acr import  -n <acr-name> --source docker.io/library/nginx:latest --image ngi
 
 https://learn.microsoft.com/en-us/samples/azure-samples/private-aks-cluster-terraform-devops/private-aks-cluster-terraform-devops/
 https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal
+https://learn.microsoft.com/en-us/training/modules/deploy-azure-kubernetes-service-cluster/7-secure-network-flow
 
 
 ## Service Types
