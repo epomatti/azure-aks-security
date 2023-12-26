@@ -130,6 +130,8 @@ Common permissions:
 
 ## Host-based encryption
 
+> Host-based encryption is different than server-side encryption (SSE), which is used by Azure Storage. Azure-managed disks use Azure Storage to automatically encrypt data at rest when saving data. Host-based encryption uses the host of the VM to handle encryption before the data flows through Azure Storage.
+
 https://learn.microsoft.com/en-us/training/modules/configure-azure-kubernetes-service-cluster/5-host-based-encryption-azure-kubernetes-service
 
 
