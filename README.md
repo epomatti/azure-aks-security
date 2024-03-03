@@ -4,6 +4,14 @@ AKS security features implemented.
 
 ## Setup
 
+Start by creating the `.auto.tfvars` file from the template:
+
+```sh
+cp config/template.tfvars .auto.tfvars
+```
+
+Set the `aks_authorized_ip_ranges` variable and other as required.
+
 Create the cluster:
 
 ```sh

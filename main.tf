@@ -46,6 +46,7 @@ module "aks" {
   local_account_disabled = var.aks_local_account_disabled
   azure_rbac_enabled     = var.aks_azure_rbac_enabled
   acr_id                 = module.acr.id
+  authorized_ip_ranges   = var.aks_authorized_ip_ranges
 }
 
 module "storage" {

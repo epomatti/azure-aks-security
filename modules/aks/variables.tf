@@ -33,3 +33,7 @@ variable "azure_rbac_enabled" {
 variable "acr_id" {
   type = string
 }
+
+variable "authorized_ip_ranges" {
+  type = list(string)
+}

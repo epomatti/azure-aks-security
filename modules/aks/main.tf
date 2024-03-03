@@ -46,6 +46,10 @@ resource "azurerm_kubernetes_cluster" "default" {
     dns_service_ip = "10.0.90.10"
   }
 
+  api_server_access_profile {
+    authorized_ip_ranges = var.authorized_ip_ranges
+  }
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.aks.id]

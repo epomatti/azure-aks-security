@@ -7,3 +7,5 @@ aks_vm_size = "Standard_B4ps_v2"
 
 aks_local_account_disabled = false
 aks_azure_rbac_enabled     = true
+
+aks_authorized_ip_ranges = [""]

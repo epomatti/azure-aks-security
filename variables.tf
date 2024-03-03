@@ -22,3 +22,7 @@ variable "aks_local_account_disabled" {
 variable "aks_azure_rbac_enabled" {
   type = bool
 }
+
+variable "aks_authorized_ip_ranges" {
+  type = list(string)
+}
