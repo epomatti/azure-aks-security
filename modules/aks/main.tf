@@ -55,8 +55,8 @@ resource "azurerm_kubernetes_cluster" "default" {
     identity_ids = [azurerm_user_assigned_identity.aks.id]
   }
 
+  # Managed property will now default to "true"
   azure_active_directory_role_based_access_control {
-    managed            = true # Azure will create and manage the Service Principal
     azure_rbac_enabled = var.azure_rbac_enabled
   }
 
