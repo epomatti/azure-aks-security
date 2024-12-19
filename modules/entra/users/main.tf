@@ -25,23 +25,27 @@ locals {
 resource "azurerm_role_assignment" "writer" {
   scope                = "${var.aks_cluster_resource_id}/namespaces/${local.helloworld_namespace}}"
   role_definition_name = "Azure Kubernetes Service RBAC Writer"
-  principal_id         = azuread_user.aks_contributor.id
+  principal_type       = "User"
+  principal_id         = azuread_user.aks_contributor.object_id
 }
 
 resource "azurerm_role_assignment" "aks_cluster_user" {
   scope                = var.aks_cluster_resource_id
   role_definition_name = "Azure Kubernetes Service Cluster User Role"
-  principal_id         = azuread_user.aks_contributor.id
+  principal_type       = "User"
+  principal_id         = azuread_user.aks_contributor.object_id
 }
 
 resource "azurerm_role_assignment" "storage_contributor" {
   scope                = var.storage_account_id
   role_definition_name = "Storage Account Contributor"
-  principal_id         = azuread_user.aks_contributor.id
+  principal_type       = "User"
+  principal_id         = azuread_user.aks_contributor.object_id
 }
 
 resource "azurerm_role_assignment" "storage_rg_reader" {
   scope                = var.resource_group_id
   role_definition_name = "Reader"
-  principal_id         = azuread_user.aks_contributor.id
+  principal_type       = "User"
+  principal_id         = azuread_user.aks_contributor.object_id
 }

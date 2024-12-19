@@ -37,6 +37,13 @@ resource "azurerm_kubernetes_cluster" "default" {
     node_count     = 1
     vm_size        = var.vm_size
     vnet_subnet_id = var.node_pool_subnet_id
+
+    # Added this as it was diffing with terraform plan
+    upgrade_settings {
+      drain_timeout_in_minutes      = 0
+      max_surge                     = "10%"
+      node_soak_duration_in_minutes = 0
+    }
   }
 
   network_profile {
