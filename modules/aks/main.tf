@@ -12,6 +12,10 @@ resource "azurerm_role_assignment" "network_contributor" {
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
+data "azurerm_subscription" "current" {
+  subscription_id = var.subscription_id
+}
+
 ### Cluster ###
 resource "azurerm_kubernetes_cluster" "default" {
   name                = "aks-${var.workload}"
@@ -20,9 +24,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   node_resource_group = "rg-aks-${var.workload}"
   dns_prefix          = "aks${var.workload}"
 
-  sku_tier                  = "Free"
+  sku_tier                  = var.aks_cluster_sku_tier
   local_account_disabled    = var.local_account_disabled
-  automatic_channel_upgrade = "patch"
+  automatic_upgrade_channel = "patch"
 
   # TODO: Learn this
   # https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes
@@ -57,6 +61,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   # Managed property will now default to "true"
   azure_active_directory_role_based_access_control {
+    tenant_id          = data.azurerm_subscription.current.tenant_id
     azure_rbac_enabled = var.azure_rbac_enabled
   }
 

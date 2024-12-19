@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.111.0"
+      version = "4.14.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "2.53.1"
+      version = "3.0.2"
     }
   }
 }
@@ -36,11 +36,13 @@ module "acr" {
 
 module "aks" {
   source              = "./modules/aks"
+  subscription_id     = var.subscription_id
   workload            = local.workload
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
 
   vm_size                = var.aks_vm_size
+  aks_cluster_sku_tier   = var.aks_cluster_sku_tier
   vnet_id                = module.vnet.vnet_id
   node_pool_subnet_id    = module.vnet.node_pool_subnet_id
   local_account_disabled = var.aks_local_account_disabled

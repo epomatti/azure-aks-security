@@ -1,8 +1,16 @@
+variable "subscription_id" {
+  type = string
+}
+
 variable "location" {
   type = string
 }
 
 variable "aks_vm_size" {
+  type = string
+}
+
+variable "aks_cluster_sku_tier" {
   type = string
 }
 

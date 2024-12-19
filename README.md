@@ -10,7 +10,13 @@ Start by creating the `.auto.tfvars` file from the template:
 cp config/template.tfvars .auto.tfvars
 ```
 
-Set the `aks_authorized_ip_ranges` variable and other as required.
+Set the following variables:
+
+```terraform
+subscription_id          = "00000000-0000-0000-0000-000000000000"
+entraid_tenant_domain    = "<DOMAIN>.onmicrosoft.com"
+aks_authorized_ip_ranges = ["1.2.3.4/32"]
+```
 
 Create the cluster:
 
@@ -97,14 +103,23 @@ az acr import  -n <acr-name> --source docker.io/library/nginx:latest --image ngi
 
 ## Virtual network (VNET) integration
 
-https://learn.microsoft.com/en-us/samples/azure-samples/private-aks-cluster-terraform-devops/private-aks-cluster-terraform-devops/
-https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal
-https://learn.microsoft.com/en-us/training/modules/deploy-azure-kubernetes-service-cluster/7-secure-network-flow
+Multiple documentation references on VNET integration:
+
+- [Create a private Azure Kubernetes Service cluster using Terraform and Azure DevOps](https://learn.microsoft.com/en-us/samples/azure-samples/private-aks-cluster-terraform-devops/private-aks-cluster-terraform-devops/)
+- [Create a private Azure Kubernetes Service (AKS) cluster](https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal)
+- [Deploy an Azure Kubernetes cluster - Secure the network flow](https://learn.microsoft.com/en-us/training/modules/deploy-azure-kubernetes-service-cluster/7-secure-network-flow)
 
 
 ## Service Types
 
-https://learn.microsoft.com/en-us/training/modules/plan-azure-kubernetes-service-deployment/7-network-access-azure-kubernetes-service
+Documentation on Service Types:
+
+- [Access to Azure Kubernetes Service](https://learn.microsoft.com/en-us/training/modules/plan-azure-kubernetes-service-deployment/7-network-access-azure-kubernetes-service)
+
+> To allow access to your applications or between application components, Kubernetes provides an abstraction layer to virtual networking. Kubernetes nodes connect to a virtual network, providing inbound and outbound connectivity for pods. The _kube-proxy_ component runs on each node to provide these network features.
+
+
+
 
 ## Network modes
 
@@ -144,12 +159,14 @@ Common permissions:
 
 Built-in: `Kubernetes cluster pod security baseline standards for Linux-based workloads.`
 
-https://learn.microsoft.com/en-us/training/modules/configure-azure-kubernetes-service-cluster/5-host-based-encryption-azure-kubernetes-service
-https://learn.microsoft.com/en-us/azure/aks/enable-host-encryption
+- [Host-based encryption on Azure Kubernetes Service](https://learn.microsoft.com/en-us/training/modules/configure-azure-kubernetes-service-cluster/5-host-based-encryption-azure-kubernetes-service)
+- [Host-based encryption on Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/enable-host-encryption)
 
 ## Storage
 
-https://learn.microsoft.com/en-us/training/modules/deploy-applications-azure-kubernetes-service/6-configure-storage-applications-run-azure-kubernetes
+Storage for applications:
+
+- [Configure storage for applications that run on Azure Kubernetes Service](https://learn.microsoft.com/en-us/training/modules/deploy-applications-azure-kubernetes-service/6-configure-storage-applications-run-azure-kubernetes)
 
 
 [k8s-rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/

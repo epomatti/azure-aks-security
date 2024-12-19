@@ -1,3 +1,7 @@
+variable "subscription_id" {
+  type = string
+}
+
 variable "workload" {
   type = string
 }
@@ -11,6 +15,10 @@ variable "location" {
 }
 
 variable "vm_size" {
+  type = string
+}
+
+variable "aks_cluster_sku_tier" {
   type = string
 }
 
