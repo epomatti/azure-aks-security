@@ -95,10 +95,17 @@ Within Azure Kubernetes RBAC [built-in][rbac-built-in-roles] roles.
 
 A Container Registry will be created and attached to the cluster.
 
-To import an image to the registry:
+To build and push the sample Go application:
 
 ```sh
-az acr import  -n <acr-name> --source docker.io/library/nginx:latest --image nginx:v1
+cd app
+bash acr-amd64.bash
+```
+
+To import an image to the registry (example):
+
+```sh
+az acr import -n <acr-name> --source docker.io/library/nginx:latest --image nginx:v1
 ```
 
 ## Virtual network (VNET) integration
