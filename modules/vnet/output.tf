@@ -9,3 +9,7 @@ output "default_subnet_id" {
 output "node_pool_subnet_id" {
   value = azurerm_subnet.aks_node_pool.id
 }
+
+output "private_endpoints_subnet_id" {
+  value = azurerm_subnet.private_endpoints.id
+}

@@ -26,7 +26,8 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   sku_tier                  = var.aks_cluster_sku_tier
   local_account_disabled    = var.local_account_disabled
-  automatic_upgrade_channel = "patch"
+  automatic_upgrade_channel = var.aks_automatic_upgrade_channel
+  node_os_upgrade_channel   = var.aks_node_os_upgrade_channel
 
   # TODO: Learn this
   # https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes
