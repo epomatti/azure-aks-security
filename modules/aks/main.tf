@@ -21,7 +21,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   name                = "aks-${var.workload}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  node_resource_group = "rg-aks-${var.workload}"
+  node_resource_group = "rg-${var.workload}-aks"
   dns_prefix          = "aks${var.workload}"
 
   sku_tier                  = var.aks_cluster_sku_tier

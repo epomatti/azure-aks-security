@@ -72,6 +72,7 @@ module "storage" {
   source              = "./modules/storage"
   resource_group_name = azurerm_resource_group.default.name
   location            = var.location
+  network_ip_rules    = var.aks_authorized_ip_ranges
 }
 
 module "entra_users" {
