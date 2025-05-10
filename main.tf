@@ -67,6 +67,7 @@ module "aks" {
 }
 
 module "alb" {
+  count               = var.create_alb ? 1 : 0
   source              = "./modules/alb"
   workload            = local.workload
   resource_group_name = azurerm_resource_group.default.name
