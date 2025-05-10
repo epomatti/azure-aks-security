@@ -2,20 +2,20 @@
 
 AKS security features implemented.
 
-## Setup
+## Provisioning
 
 Start by creating the `.auto.tfvars` file from the template:
 
 ```sh
-cp config/template.tfvars .auto.tfvars
+cp config/local.auto.tfvars .auto.tfvars
 ```
 
 Set the following variables:
 
 ```terraform
 subscription_id          = "00000000-0000-0000-0000-000000000000"
-entraid_tenant_domain    = "<DOMAIN>.onmicrosoft.com"
-aks_authorized_ip_ranges = ["1.2.3.4/32"]
+entraid_tenant_domain    = "<TENANT>"
+aks_authorized_ip_ranges = ["1.2.3.4/30"]
 ```
 
 Create the cluster:
@@ -25,11 +25,17 @@ terraform init
 terraform apply -auto-approve
 ```
 
-Enable application routing:
+## Routing
+
+### Managed NGINX Ingress
+
+For a simple setup, use the application routing [add-on](https://learn.microsoft.com/en-us/azure/aks/app-routing):
 
 ```sh
 az aks approuting enable -g rg-petzexpress -n aks-petzexpress
 ```
+
+## Deployment
 
 Configure the cluster:
 

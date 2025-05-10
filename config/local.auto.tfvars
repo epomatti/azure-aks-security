@@ -3,7 +3,7 @@ subscription_id = "00000000-0000-0000-0000-000000000000"
 location        = "eastus2"
 
 # Entra ID
-entraid_tenant_domain = "pomatti.io"
+entraid_tenant_domain = "<TENANT>"
 generic_password      = "P4ssw0rd.1234"
 
 # ACR
@@ -19,4 +19,4 @@ aks_node_os_upgrade_channel   = "NodeImage"
 aks_local_account_disabled = false
 aks_azure_rbac_enabled     = true
 
-aks_authorized_ip_ranges = ["1.2.3.4/32"]
+aks_authorized_ip_ranges = ["1.2.3.4/30"]

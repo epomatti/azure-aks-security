@@ -26,6 +26,22 @@ resource "azurerm_subnet" "private_endpoints" {
   address_prefixes     = ["10.0.20.0/24"]
 }
 
+resource "azurerm_subnet" "alb" {
+  name                 = "alb-subnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.30.0/24"]
+
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.ServiceNetworking/trafficControllers"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+    }
+  }
+}
+
 resource "azurerm_network_security_group" "default" {
   name                = "nsg-${var.workload}"
   location            = var.location

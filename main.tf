@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "4.14.0"
+      version = ">= 4.0.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "3.0.2"
+      version = ">= 3.0.0"
     }
   }
 }
@@ -15,8 +15,6 @@ resource "random_string" "affix" {
   length      = 3
   numeric     = true
   min_numeric = 3
-  # special     = false
-  # upper       = false
 }
 
 locals {
@@ -67,6 +65,14 @@ module "aks" {
   acr_id                        = module.acr.id
   authorized_ip_ranges          = var.aks_authorized_ip_ranges
 }
+
+# module "alb" {
+#   source              = "./modules/alb"
+#   workload            = local.workload
+#   resource_group_name = azurerm_resource_group.default.name
+#   location            = var.location
+#   subnet_id           = module.vnet.alb_subnet_id
+# }
 
 module "storage" {
   source              = "./modules/storage"
