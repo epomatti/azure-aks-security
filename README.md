@@ -35,6 +35,17 @@ For a simple setup, use the application routing [add-on](https://learn.microsoft
 az aks approuting enable -g rg-petzexpress -n aks-petzexpress
 ```
 
+### Application Gateway for Containers
+
+> [!TIP]
+> The subscription must be registered to use `Microsoft.ServiceNetworking`
+
+In order to create the ALB, set the variable:
+
+```terraform
+create_alb = true
+```
+
 ## Deployment
 
 Configure the cluster:

@@ -20,3 +20,6 @@ aks_local_account_disabled = false
 aks_azure_rbac_enabled     = true
 
 aks_authorized_ip_ranges = ["1.2.3.4/30"]
+
+# Load balancing
+create_alb = false

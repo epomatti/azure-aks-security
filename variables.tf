@@ -52,3 +52,8 @@ variable "acr_sku" {
 variable "acr_create_private_endpoint" {
   type = bool
 }
+
+# Load balancing
+variable "create_alb" {
+  type = bool
+}
