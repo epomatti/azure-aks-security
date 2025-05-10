@@ -66,13 +66,13 @@ module "aks" {
   authorized_ip_ranges          = var.aks_authorized_ip_ranges
 }
 
-# module "alb" {
-#   source              = "./modules/alb"
-#   workload            = local.workload
-#   resource_group_name = azurerm_resource_group.default.name
-#   location            = var.location
-#   subnet_id           = module.vnet.alb_subnet_id
-# }
+module "alb" {
+  source              = "./modules/alb"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = var.location
+  subnet_id           = module.vnet.alb_subnet_id
+}
 
 module "storage" {
   source              = "./modules/storage"
