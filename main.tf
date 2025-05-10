@@ -12,8 +12,8 @@ terraform {
 }
 
 resource "random_string" "affix" {
-  length      = 3
   numeric     = true
+  length      = 3
   min_numeric = 3
 }
 
@@ -21,7 +21,7 @@ locals {
   workload = "petzexpress${random_string.affix.result}"
 }
 
-resource "azurerm_resource_group" "default" {
+resource "azurerm_resource_group" "workload" {
   name     = "rg-${local.workload}-workload"
   location = var.location
 }
@@ -32,26 +32,26 @@ resource "azurerm_resource_group" "private_link" {
 }
 
 module "vnet" {
-  source              = "./modules/vnet"
+  source              = "./modules/virtual-network"
   workload            = local.workload
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
 }
 
 module "acr" {
-  source                = "./modules/acr"
+  source                = "./modules/container-registry"
   workload              = local.workload
-  resource_group_name   = azurerm_resource_group.default.name
+  resource_group_name   = azurerm_resource_group.workload.name
   location              = var.location
   acr_sku               = var.acr_sku
   authorized_cidr_block = var.aks_authorized_ip_ranges[0]
 }
 
 module "aks" {
-  source              = "./modules/aks"
+  source              = "./modules/kubernetes"
   subscription_id     = var.subscription_id
   workload            = local.workload
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
 
   vm_size                       = var.aks_vm_size
@@ -68,16 +68,16 @@ module "aks" {
 
 module "alb" {
   count               = var.create_alb ? 1 : 0
-  source              = "./modules/alb"
+  source              = "./modules/application-load-balancer"
   workload            = local.workload
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
   subnet_id           = module.vnet.alb_subnet_id
 }
 
 module "storage" {
   source              = "./modules/storage"
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
   network_ip_rules    = var.aks_authorized_ip_ranges
 }
@@ -88,7 +88,7 @@ module "entra_users" {
   password                = var.generic_password
   aks_cluster_resource_id = module.aks.aks_cluster_id
   storage_account_id      = module.storage.id
-  resource_group_id       = azurerm_resource_group.default.id
+  resource_group_id       = azurerm_resource_group.workload.id
 }
 
 module "private_link" {
