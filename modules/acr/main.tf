@@ -6,12 +6,15 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled                 = false
   public_network_access_enabled = true
 
-  network_rule_set {
-    default_action = "Deny"
+  dynamic "network_rule_set" {
+    for_each = var.acr_sku == "Premium" ? [1] : []
+    content {
+      default_action = "Deny"
 
-    ip_rule {
-      action   = "Allow"
-      ip_range = var.authorized_cidr_block
+      ip_rule {
+        action   = "Allow"
+        ip_range = var.authorized_cidr_block
+      }
     }
   }
 
