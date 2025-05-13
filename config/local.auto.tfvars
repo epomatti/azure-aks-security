@@ -21,5 +21,11 @@ aks_azure_rbac_enabled     = true
 
 aks_authorized_ip_ranges = ["1.2.3.4/30"]
 
-# Load balancing
+# Application Load Balancer
 create_alb = false
+
+# Application Gateway
+create_agw       = false
+agw_sku_name     = "Standard_v2"
+agw_sku_tier     = "Standard_v2"
+agw_sku_capacity = 1
