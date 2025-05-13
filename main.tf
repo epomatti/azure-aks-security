@@ -38,6 +38,13 @@ module "vnet" {
   location            = var.location
 }
 
+module "monitor" {
+  source              = "./modules/monitor"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.workload.name
+  location            = var.location
+}
+
 module "acr" {
   source                = "./modules/container-registry"
   workload              = local.workload
@@ -73,6 +80,31 @@ module "alb" {
   resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
   subnet_id           = module.vnet.alb_subnet_id
+}
+
+module "application_gateway" {
+  count               = var.create_agw ? 1 : 0
+  source              = "./modules/application-gateway"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.workload.name
+  location            = var.location
+
+  # Network
+  subnet_id            = module.vnet.agw_subnet_id
+  virtual_network_name = module.vnet.vnet_name
+
+  # SKU
+  agw_sku_name     = var.agw_sku_name
+  agw_sku_tier     = var.agw_sku_tier
+  agw_sku_capacity = var.agw_sku_capacity
+}
+
+module "waf_policy" {
+  source                     = "./modules/waf-policy"
+  workload                   = local.workload
+  resource_group_name        = azurerm_resource_group.workload.name
+  location                   = var.location
+  log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
 }
 
 module "storage" {

@@ -26,11 +26,11 @@ resource "azurerm_subnet" "private_endpoints" {
   address_prefixes     = ["10.0.20.0/24"]
 }
 
-resource "azurerm_subnet" "alb" {
+resource "azurerm_subnet" "application_load_balancer" {
   name                 = "alb-subnet"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.0.30.0/24"]
+  address_prefixes     = ["10.0.199.0/24"]
 
   delegation {
     name = "delegation"
@@ -40,6 +40,13 @@ resource "azurerm_subnet" "alb" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
     }
   }
+}
+
+resource "azurerm_subnet" "application_gateway" {
+  name                 = "agw-subnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.244.0/24"]
 }
 
 resource "azurerm_network_security_group" "default" {

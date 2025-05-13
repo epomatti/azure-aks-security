@@ -53,7 +53,24 @@ variable "acr_create_private_endpoint" {
   type = bool
 }
 
-# Load balancing
+# Application Load Balancer
 variable "create_alb" {
   type = bool
+}
+
+# Application Gateway
+variable "create_agw" {
+  type = bool
+}
+
+variable "agw_sku_name" {
+  type = string
+}
+
+variable "agw_sku_tier" {
+  type = string
+}
+
+variable "agw_sku_capacity" {
+  type = number
 }
