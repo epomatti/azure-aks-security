@@ -53,3 +53,11 @@ variable "acr_id" {
 variable "authorized_ip_ranges" {
   type = list(string)
 }
+
+variable "create_agw" {
+  type = bool
+}
+
+variable "application_gateway_id" {
+  type = string
+}

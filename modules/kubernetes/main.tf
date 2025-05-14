@@ -62,6 +62,13 @@ resource "azurerm_kubernetes_cluster" "default" {
     authorized_ip_ranges = var.authorized_ip_ranges
   }
 
+  dynamic "ingress_application_gateway" {
+    for_each = var.create_agw ? [1] : []
+    content {
+      gateway_id = var.application_gateway_id
+    }
+  }
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.aks.id]

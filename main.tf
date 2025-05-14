@@ -71,6 +71,9 @@ module "aks" {
   azure_rbac_enabled            = var.aks_azure_rbac_enabled
   acr_id                        = module.acr.id
   authorized_ip_ranges          = var.aks_authorized_ip_ranges
+
+  create_agw             = var.create_agw
+  application_gateway_id = var.create_agw == true ? module.application_gateway[0].id : null
 }
 
 module "alb" {

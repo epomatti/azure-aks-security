@@ -57,6 +57,7 @@ To create the AGW:
 create_agw = true
 ```
 
+The recipes will install the AGW as ingress controller for AKS.
 
 ## Deployment
 
@@ -123,6 +124,10 @@ Within Azure Kubernetes RBAC [built-in][rbac-built-in-roles] roles.
 ## ACR
 
 A Container Registry will be created and attached to the cluster.
+
+The default configuration is using ARM64 node pools.
+
+
 
 To build and push the sample Go application:
 
