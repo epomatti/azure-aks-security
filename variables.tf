@@ -53,8 +53,8 @@ variable "acr_create_private_endpoint" {
   type = bool
 }
 
-# Application Load Balancer
-variable "create_alb" {
+# Application Gateway for Containers
+variable "create_agwc" {
   type = bool
 }
 
@@ -77,4 +77,13 @@ variable "agw_sku_capacity" {
 
 variable "agw_private_ip_address" {
   type = string
+}
+
+# Web Application Firewall (WAF)
+variable "create_waf_policy" {
+  type = bool
+}
+
+variable "attach_waf_policy_to_gateway" {
+  type = bool
 }

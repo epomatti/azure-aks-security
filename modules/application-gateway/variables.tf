@@ -33,3 +33,7 @@ variable "agw_sku_capacity" {
 variable "agw_private_ip_address" {
   type = string
 }
+
+variable "waf_policy_id" {
+  type = string
+}

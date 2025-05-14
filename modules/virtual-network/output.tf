@@ -18,8 +18,8 @@ output "private_endpoints_subnet_id" {
   value = azurerm_subnet.private_endpoints.id
 }
 
-output "alb_subnet_id" {
-  value = azurerm_subnet.application_load_balancer.id
+output "agwc_subnet_id" {
+  value = azurerm_subnet.application_gateway_for_containers.id
 }
 
 output "agw_subnet_id" {

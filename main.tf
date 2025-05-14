@@ -76,13 +76,13 @@ module "aks" {
   application_gateway_id = var.create_agw == true ? module.application_gateway[0].id : null
 }
 
-module "alb" {
-  count               = var.create_alb ? 1 : 0
-  source              = "./modules/application-load-balancer"
+module "application_gateway_for_containers" {
+  count               = var.create_agwc ? 1 : 0
+  source              = "./modules/application-gateway-for-containers"
   workload            = local.workload
   resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
-  subnet_id           = module.vnet.alb_subnet_id
+  subnet_id           = module.vnet.agwc_subnet_id
 }
 
 module "application_gateway" {
@@ -101,9 +101,13 @@ module "application_gateway" {
   agw_sku_name     = var.agw_sku_name
   agw_sku_tier     = var.agw_sku_tier
   agw_sku_capacity = var.agw_sku_capacity
+
+  # WAF
+  waf_policy_id = var.attach_waf_policy_to_gateway ? module.waf_policy[0].id : null
 }
 
 module "waf_policy" {
+  count                      = var.create_waf_policy ? 1 : 0
   source                     = "./modules/waf-policy"
   workload                   = local.workload
   resource_group_name        = azurerm_resource_group.workload.name
@@ -114,6 +118,7 @@ module "waf_policy" {
 module "storage" {
   source              = "./modules/storage"
   resource_group_name = azurerm_resource_group.workload.name
+  workload            = local.workload
   location            = var.location
   network_ip_rules    = var.aks_authorized_ip_ranges
 }

@@ -21,8 +21,8 @@ aks_azure_rbac_enabled     = true
 
 aks_authorized_ip_ranges = ["1.2.3.4/30"]
 
-# Application Load Balancer
-create_alb = false
+# Application Gateway for Containers
+create_agwc = false
 
 # Application Gateway
 create_agw             = false
@@ -30,3 +30,7 @@ agw_sku_name           = "Standard_v2"
 agw_sku_tier           = "Standard_v2"
 agw_sku_capacity       = 1
 agw_private_ip_address = "10.0.244.50"
+
+# Web Application Firewall (WAF)
+create_waf_policy            = false
+attach_waf_policy_to_gateway = false

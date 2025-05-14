@@ -1,5 +1,5 @@
 resource "azurerm_web_application_firewall_policy" "default" {
-  name                = "waf-policy-${var.workload}"
+  name                = "waf-${var.workload}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
@@ -16,9 +16,5 @@ resource "azurerm_web_application_firewall_policy" "default" {
       type    = "Microsoft_DefaultRuleSet"
       version = "2.1"
     }
-    # managed_rule_set {
-    #   type    = "OWASP"
-    #   version = "3.2"
-    # }
   }
 }

@@ -1,5 +1,5 @@
 resource "azurerm_application_load_balancer" "default" {
-  name                = "alb-${var.workload}"
+  name                = "agwc-${var.workload}"
   resource_group_name = var.resource_group_name
   location            = var.location
 }
