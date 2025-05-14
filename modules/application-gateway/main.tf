@@ -7,13 +7,14 @@ resource "azurerm_public_ip" "default" {
 
 # since these variables are re-used - a locals block makes this more maintainable
 locals {
-  backend_address_pool_name      = "${var.virtual_network_name}-beap"
-  frontend_port_name             = "${var.virtual_network_name}-feport"
-  frontend_ip_configuration_name = "${var.virtual_network_name}-feip"
-  http_setting_name              = "${var.virtual_network_name}-be-htst"
-  listener_name                  = "${var.virtual_network_name}-httplstn"
-  request_routing_rule_name      = "${var.virtual_network_name}-rqrt"
-  redirect_configuration_name    = "${var.virtual_network_name}-rdrcfg"
+  backend_address_pool_name              = "${var.virtual_network_name}-beap"
+  frontend_port_name                     = "${var.virtual_network_name}-feport"
+  frontend_ip_configuration_name         = "${var.virtual_network_name}-feip"
+  frontend_private_ip_configuration_name = "${var.virtual_network_name}-feipp"
+  http_setting_name                      = "${var.virtual_network_name}-be-htst"
+  listener_name                          = "${var.virtual_network_name}-httplstn"
+  request_routing_rule_name              = "${var.virtual_network_name}-rqrt"
+  redirect_configuration_name            = "${var.virtual_network_name}-rdrcfg"
 }
 
 resource "azurerm_application_gateway" "network" {
@@ -40,7 +41,11 @@ resource "azurerm_application_gateway" "network" {
   frontend_ip_configuration {
     name                 = local.frontend_ip_configuration_name
     public_ip_address_id = azurerm_public_ip.default.id
-    private_ip_address   = var.agw_private_ip_address
+  }
+
+  frontend_ip_configuration {
+    name                          = local.frontend_private_ip_configuration_name
+    private_ip_address_allocation = "Static"
   }
 
   backend_address_pool {
