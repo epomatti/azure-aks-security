@@ -1,13 +1,13 @@
 # https://github.com/golang/go/wiki/GoArm
 # https://hub.docker.com/r/arm64v8/alpine/tags
-FROM arm64v8/golang:1.23-alpine AS builder
+FROM arm64v8/golang:1.24-alpine AS builder
 
 WORKDIR /build
 COPY . .
 RUN go mod download
 RUN go build .
 
-FROM arm64v8/golang:1.23-alpine
+FROM arm64v8/golang:1.24-alpine
 
 WORKDIR /app
 COPY --from=builder /build/main .

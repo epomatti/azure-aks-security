@@ -32,4 +32,3 @@ jobs:
     - run: |
         docker tag $REPOSITORY epomatti/$REPOSITORY
         docker push epomatti/$REPOSITORY
-  
