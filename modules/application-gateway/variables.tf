@@ -29,3 +29,7 @@ variable "agw_sku_tier" {
 variable "agw_sku_capacity" {
   type = number
 }
+
+variable "agw_private_ip_address" {
+  type = string
+}

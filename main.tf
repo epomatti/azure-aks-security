@@ -90,8 +90,9 @@ module "application_gateway" {
   location            = var.location
 
   # Network
-  subnet_id            = module.vnet.agw_subnet_id
-  virtual_network_name = module.vnet.vnet_name
+  subnet_id              = module.vnet.agw_subnet_id
+  virtual_network_name   = module.vnet.vnet_name
+  agw_private_ip_address = var.agw_private_ip_address
 
   # SKU
   agw_sku_name     = var.agw_sku_name

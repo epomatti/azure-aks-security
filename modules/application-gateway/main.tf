@@ -40,6 +40,7 @@ resource "azurerm_application_gateway" "network" {
   frontend_ip_configuration {
     name                 = local.frontend_ip_configuration_name
     public_ip_address_id = azurerm_public_ip.default.id
+    private_ip_address   = var.agw_private_ip_address
   }
 
   backend_address_pool {

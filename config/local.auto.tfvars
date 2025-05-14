@@ -25,7 +25,8 @@ aks_authorized_ip_ranges = ["1.2.3.4/30"]
 create_alb = false
 
 # Application Gateway
-create_agw       = false
-agw_sku_name     = "Standard_v2"
-agw_sku_tier     = "Standard_v2"
-agw_sku_capacity = 1
+create_agw             = false
+agw_sku_name           = "Standard_v2"
+agw_sku_tier           = "Standard_v2"
+agw_sku_capacity       = 1
+agw_private_ip_address = "10.0.244.50"

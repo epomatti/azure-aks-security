@@ -46,6 +46,18 @@ In order to create the ALB, set the variable:
 create_alb = true
 ```
 
+### Application Gateway
+
+> [!TIP]
+> Networking isolation currently in preview, needing [activation](https://learn.microsoft.com/en-us/azure/application-gateway/application-gateway-private-deployment?tabs=portal) of the `EnableApplicationGatewayNetworkIsolation` preview feature. This [issue](https://learn.microsoft.com/en-us/answers/questions/1287798/private-application-gateway-v2-with-private-ip-onl?source=docs) might be useful.
+
+To create the AGW:
+
+```terraform
+create_agw = true
+```
+
+
 ## Deployment
 
 Configure the cluster:
