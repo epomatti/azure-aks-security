@@ -21,6 +21,7 @@ resource "azurerm_application_gateway" "network" {
   name                = "agw-${var.workload}"
   resource_group_name = var.resource_group_name
   location            = var.location
+  enable_http2        = true
 
   sku {
     name     = var.agw_sku_name
