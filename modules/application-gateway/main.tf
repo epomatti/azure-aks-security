@@ -44,8 +44,9 @@ resource "azurerm_application_gateway" "network" {
   }
 
   frontend_ip_configuration {
-    name                          = local.frontend_private_ip_configuration_name
+    name                          = "static-private-ip"
     private_ip_address_allocation = "Static"
+    subnet_id                     = var.subnet_id
   }
 
   backend_address_pool {
@@ -54,7 +55,8 @@ resource "azurerm_application_gateway" "network" {
 
   backend_http_settings {
     name                  = local.http_setting_name
-    cookie_based_affinity = "Disabled"
+    cookie_based_affinity = "Enabled"
+    affinity_cookie_name  = "ApplicationGatewayAffinity"
     path                  = "/"
     port                  = 80
     protocol              = "Http"
