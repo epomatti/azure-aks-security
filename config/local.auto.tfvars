@@ -21,6 +21,16 @@ aks_private_cluster_enabled = true
 aks_local_account_disabled  = false
 aks_azure_rbac_enabled      = true
 
+# Jump Server
+vm_jump_admin_username              = "azureuser"
+vm_jump_public_key_path             = ".keys/tmp_rsa.pub"
+vm_jump_size                        = "Standard_B2pts_v2"
+vm_jump_osdisk_storage_account_type = "StandardSSD_LRS"
+vm_jump_image_publisher             = "canonical"
+vm_jump_image_offer                 = "ubuntu-24_04-lts"
+vm_jump_image_sku                   = "server-arm64"
+vm_jump_image_version               = "latest"
+
 # Application Gateway for Containers
 create_agwc = false
 

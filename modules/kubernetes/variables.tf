@@ -65,3 +65,7 @@ variable "application_gateway_id" {
 variable "private_cluster_enabled" {
   type = bool
 }
+
+variable "jump_server_identity_principal_id" {
+  type = string
+}

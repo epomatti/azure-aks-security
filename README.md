@@ -10,6 +10,12 @@ Start by creating the `.auto.tfvars` file from the template:
 cp config/local.auto.tfvars .auto.tfvars
 ```
 
+Create the SSH key park:
+
+```sh
+mkdir -p .keys && ssh-keygen -f .keys/tmp_key
+```
+
 Set the following variables:
 
 ```terraform

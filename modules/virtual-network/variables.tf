@@ -9,3 +9,7 @@ variable "resource_group_name" {
 variable "location" {
   type = string
 }
+
+variable "ssh_allowed_ips" {
+  type = list(string)
+}

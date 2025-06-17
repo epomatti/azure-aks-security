@@ -90,3 +90,36 @@ variable "create_waf_policy" {
 variable "attach_waf_policy_to_gateway" {
   type = bool
 }
+
+# Jump Server
+variable "vm_jump_admin_username" {
+  type = string
+}
+
+variable "vm_jump_public_key_path" {
+  type = string
+}
+
+variable "vm_jump_size" {
+  type = string
+}
+
+variable "vm_jump_osdisk_storage_account_type" {
+  type = string
+}
+
+variable "vm_jump_image_publisher" {
+  type = string
+}
+
+variable "vm_jump_image_offer" {
+  type = string
+}
+
+variable "vm_jump_image_sku" {
+  type = string
+}
+
+variable "vm_jump_image_version" {
+  type = string
+}
