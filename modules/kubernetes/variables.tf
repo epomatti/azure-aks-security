@@ -65,7 +65,3 @@ variable "application_gateway_id" {
 variable "private_cluster_enabled" {
   type = bool
 }
-
-variable "aks_private_cluster_public_fqdn_enabled" {
-  type = bool
-}

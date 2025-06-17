@@ -16,10 +16,9 @@ aks_cluster_sku_tier          = "Free"
 aks_automatic_upgrade_channel = "patch"
 aks_node_os_upgrade_channel   = "NodeImage"
 
-aks_private_cluster_public_fqdn_enabled = true
-aks_private_cluster_enabled             = true
-aks_local_account_disabled              = false
-aks_azure_rbac_enabled                  = true
+aks_private_cluster_enabled = true
+aks_local_account_disabled  = false
+aks_azure_rbac_enabled      = true
 
 aks_authorized_ip_ranges = ["100.100.100.100/30"]
 

@@ -61,18 +61,17 @@ module "aks" {
   resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
 
-  vm_size                                 = var.aks_vm_size
-  aks_cluster_sku_tier                    = var.aks_cluster_sku_tier
-  aks_automatic_upgrade_channel           = var.aks_automatic_upgrade_channel
-  aks_node_os_upgrade_channel             = var.aks_node_os_upgrade_channel
-  vnet_id                                 = module.vnet.vnet_id
-  node_pool_subnet_id                     = module.vnet.node_pool_subnet_id
-  local_account_disabled                  = var.aks_local_account_disabled
-  azure_rbac_enabled                      = var.aks_azure_rbac_enabled
-  acr_id                                  = module.acr.id
-  authorized_ip_ranges                    = var.aks_authorized_ip_ranges
-  private_cluster_enabled                 = var.aks_private_cluster_enabled
-  aks_private_cluster_public_fqdn_enabled = var.aks_private_cluster_public_fqdn_enabled
+  vm_size                       = var.aks_vm_size
+  aks_cluster_sku_tier          = var.aks_cluster_sku_tier
+  aks_automatic_upgrade_channel = var.aks_automatic_upgrade_channel
+  aks_node_os_upgrade_channel   = var.aks_node_os_upgrade_channel
+  vnet_id                       = module.vnet.vnet_id
+  node_pool_subnet_id           = module.vnet.node_pool_subnet_id
+  local_account_disabled        = var.aks_local_account_disabled
+  azure_rbac_enabled            = var.aks_azure_rbac_enabled
+  acr_id                        = module.acr.id
+  authorized_ip_ranges          = var.aks_authorized_ip_ranges
+  private_cluster_enabled       = var.aks_private_cluster_enabled
 
   create_agw             = var.create_agw
   application_gateway_id = var.create_agw == true ? module.application_gateway[0].id : null

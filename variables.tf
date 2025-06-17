@@ -47,10 +47,6 @@ variable "aks_private_cluster_enabled" {
   type = bool
 }
 
-variable "aks_private_cluster_public_fqdn_enabled" {
-  type = bool
-}
-
 # ACR
 variable "acr_sku" {
   type = string
