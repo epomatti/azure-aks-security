@@ -1,6 +1,7 @@
 # Project
-subscription_id = "00000000-0000-0000-0000-000000000000"
-location        = "eastus2"
+subscription_id          = "00000000-0000-0000-0000-000000000000"
+location                 = "eastus2"
+aks_authorized_ip_ranges = ["100.100.100.100/30"]
 
 # Entra ID
 entraid_tenant_domain = "<TENANT>"
@@ -19,8 +20,6 @@ aks_node_os_upgrade_channel   = "NodeImage"
 aks_private_cluster_enabled = true
 aks_local_account_disabled  = false
 aks_azure_rbac_enabled      = true
-
-aks_authorized_ip_ranges = ["100.100.100.100/30"]
 
 # Application Gateway for Containers
 create_agwc = false
