@@ -110,6 +110,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "user" {
   node_count            = 1
   auto_scaling_enabled  = false
   mode                  = "User"
+
+  # TODO: Dedicated
+  vnet_subnet_id = var.node_pool_subnet_id
 }
 
 resource "azurerm_role_assignment" "acr" {

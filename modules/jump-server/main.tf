@@ -34,8 +34,9 @@ resource "azurerm_linux_virtual_machine" "main" {
   admin_username        = var.vm_admin_username
   network_interface_ids = [azurerm_network_interface.main.id]
 
-  secure_boot_enabled = true
-  vtpm_enabled        = true
+  # Not supported for ARM64 images
+  secure_boot_enabled = false
+  vtpm_enabled        = false
 
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 

@@ -1,7 +1,7 @@
 # Project
 subscription_id          = "00000000-0000-0000-0000-000000000000"
 location                 = "eastus2"
-aks_authorized_ip_ranges = ["100.100.100.100/30"]
+aks_authorized_ip_ranges = ["100.100.100.100/32"]
 
 # Entra ID
 entraid_tenant_domain = "<TENANT>"
