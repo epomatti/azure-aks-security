@@ -112,20 +112,3 @@ resource "azurerm_role_assignment" "acr" {
   scope                            = var.acr_id
   skip_service_principal_aad_check = true
 }
-
-
-
-
-
-
-resource "azurerm_user_assigned_identity" "example" {
-  name                = "aks-example-identity"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-}
-
-resource "azurerm_role_assignment" "example" {
-  scope                = azurerm_private_dns_zone.example.id
-  role_definition_name = "Private DNS Zone Contributor"
-  principal_id         = azurerm_user_assigned_identity.example.principal_id
-}
