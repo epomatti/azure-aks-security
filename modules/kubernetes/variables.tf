@@ -54,10 +54,6 @@ variable "acr_id" {
   type = string
 }
 
-variable "authorized_ip_ranges" {
-  type = list(string)
-}
-
 variable "create_agw" {
   type = bool
 }

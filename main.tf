@@ -77,7 +77,6 @@ module "aks" {
   local_account_disabled            = var.aks_local_account_disabled
   azure_rbac_enabled                = var.aks_azure_rbac_enabled
   acr_id                            = module.acr.id
-  authorized_ip_ranges              = var.aks_authorized_ip_ranges
   private_cluster_enabled           = var.aks_private_cluster_enabled
   jump_server_identity_principal_id = azurerm_user_assigned_identity.jump_server.principal_id
 

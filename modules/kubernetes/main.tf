@@ -77,10 +77,6 @@ resource "azurerm_kubernetes_cluster" "default" {
     dns_service_ip = "10.0.90.10"
   }
 
-  api_server_access_profile {
-    authorized_ip_ranges = var.authorized_ip_ranges
-  }
-
   dynamic "ingress_application_gateway" {
     for_each = var.create_agw ? [1] : []
     content {
