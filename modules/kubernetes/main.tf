@@ -1,3 +1,7 @@
+data "azurerm_subscription" "current" {
+  subscription_id = var.subscription_id
+}
+
 # When using VNET integration, User Assigned Identities are strongly recommended (required?) for AKS.
 # https://learn.microsoft.com/en-us/azure/aks/configure-kubenet?_ga=2.141939570.1510144942.1703251968-967359652.1700361706
 resource "azurerm_user_assigned_identity" "aks" {
@@ -12,8 +16,17 @@ resource "azurerm_role_assignment" "network_contributor" {
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
-data "azurerm_subscription" "current" {
-  subscription_id = var.subscription_id
+# Private DNS Zone for AKS
+# https://learn.microsoft.com/en-us/azure/aks/private-clusters-dns
+resource "azurerm_private_dns_zone" "aks" {
+  name                = "privatelink.${var.location}.azmk8s.io"
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_role_assignment" "private_dnz_zone_contributor" {
+  scope                = azurerm_private_dns_zone.aks.id
+  role_definition_name = "Private DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
 ### Cluster ###
@@ -22,12 +35,17 @@ resource "azurerm_kubernetes_cluster" "default" {
   location            = var.location
   resource_group_name = var.resource_group_name
   node_resource_group = "rg-${var.workload}-aks"
-  dns_prefix          = "aks${var.workload}"
 
   sku_tier                  = var.aks_cluster_sku_tier
   local_account_disabled    = var.local_account_disabled
   automatic_upgrade_channel = var.aks_automatic_upgrade_channel
   node_os_upgrade_channel   = var.aks_node_os_upgrade_channel
+
+  private_cluster_public_fqdn_enabled = var.aks_private_cluster_public_fqdn_enabled
+  dns_prefix                          = "aks${var.workload}"
+  dns_prefix_private_cluster          = "aks${var.workload}-private"
+  private_cluster_enabled             = var.private_cluster_enabled
+  private_dns_zone_id                 = azurerm_private_dns_zone.aks.id
 
   # TODO: Learn this
   # https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes
@@ -93,4 +111,21 @@ resource "azurerm_role_assignment" "acr" {
   role_definition_name             = "AcrPull"
   scope                            = var.acr_id
   skip_service_principal_aad_check = true
+}
+
+
+
+
+
+
+resource "azurerm_user_assigned_identity" "example" {
+  name                = "aks-example-identity"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+}
+
+resource "azurerm_role_assignment" "example" {
+  scope                = azurerm_private_dns_zone.example.id
+  role_definition_name = "Private DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.example.principal_id
 }

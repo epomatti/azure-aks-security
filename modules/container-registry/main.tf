@@ -20,3 +20,26 @@ resource "azurerm_container_registry" "acr" {
 
   network_rule_bypass_option = "AzureServices"
 }
+
+# resource "azurerm_container_registry_cache_rule" "epomatti_arm" {
+#   name                  = "epomatti-arm"
+#   container_registry_id = azurerm_container_registry.acr.id
+#   target_repo           = "aks-security-app"
+#   source_repo           = "docker.io/epomatti/aks-security-app"
+#   # credential_set_id     = "${azurerm_container_registry.acr.id}/credentialSets/example"
+# }
+
+# resource "azurerm_container_registry_credential_set" "example" {
+#   name                  = "exampleCredentialSet"
+#   container_registry_id = azurerm_container_registry.example.id
+#   login_server          = "docker.io"
+
+#   identity {
+#     type = "SystemAssigned"
+#   }
+
+#   authentication_credentials {
+#     username_secret_id = "https://example-keyvault.vault.azure.net/secrets/example-user-name"
+#     password_secret_id = "https://example-keyvault.vault.azure.net/secrets/example-user-password"
+#   }
+# }

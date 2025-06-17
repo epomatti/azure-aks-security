@@ -22,7 +22,6 @@ variable "aks_node_os_upgrade_channel" {
   type = string
 }
 
-
 variable "entraid_tenant_domain" {
   type = string
 }
@@ -42,6 +41,14 @@ variable "aks_azure_rbac_enabled" {
 
 variable "aks_authorized_ip_ranges" {
   type = list(string)
+}
+
+variable "aks_private_cluster_enabled" {
+  type = bool
+}
+
+variable "aks_private_cluster_public_fqdn_enabled" {
+  type = bool
 }
 
 # ACR
