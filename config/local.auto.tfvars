@@ -16,10 +16,12 @@ aks_cluster_sku_tier          = "Free"
 aks_automatic_upgrade_channel = "patch"
 aks_node_os_upgrade_channel   = "NodeImage"
 
-aks_local_account_disabled = false
-aks_azure_rbac_enabled     = true
+aks_private_cluster_public_fqdn_enabled = true
+aks_private_cluster_enabled             = true
+aks_local_account_disabled              = false
+aks_azure_rbac_enabled                  = true
 
-aks_authorized_ip_ranges = ["1.2.3.4/30"]
+aks_authorized_ip_ranges = ["100.100.100.100/30"]
 
 # Application Gateway for Containers
 create_agwc = false
