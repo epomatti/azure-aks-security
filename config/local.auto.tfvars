@@ -12,7 +12,8 @@ acr_sku                     = "Basic"
 acr_create_private_endpoint = false
 
 # AKS
-aks_vm_size                   = "Standard_B4ps_v2"
+aks_default_node_pool_vm_size = "Standard_B2pls_v2"
+aks_user_node_pool_vm_size    = "Standard_B2pls_v2"
 aks_cluster_sku_tier          = "Free"
 aks_automatic_upgrade_channel = "patch"
 aks_node_os_upgrade_channel   = "NodeImage"

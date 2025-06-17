@@ -53,9 +53,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   azure_policy_enabled = true
 
   default_node_pool {
-    name           = "default"
+    name           = "system"
     node_count     = 1
-    vm_size        = var.vm_size
+    vm_size        = var.aks_default_node_pool_vm_size
     vnet_subnet_id = var.node_pool_subnet_id
 
     # Added this as it was diffing with terraform plan
@@ -105,6 +105,15 @@ resource "azurerm_kubernetes_cluster" "default" {
       web_app_routing
     ]
   }
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "user" {
+  name                  = "user"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.default.id
+  vm_size               = var.aks_user_node_pool_vm_size
+  node_count            = 1
+  auto_scaling_enabled  = false
+  mode                  = "User"
 }
 
 resource "azurerm_role_assignment" "acr" {

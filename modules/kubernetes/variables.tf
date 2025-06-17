@@ -14,7 +14,11 @@ variable "location" {
   type = string
 }
 
-variable "vm_size" {
+variable "aks_default_node_pool_vm_size" {
+  type = string
+}
+
+variable "aks_user_node_pool_vm_size" {
   type = string
 }
 
