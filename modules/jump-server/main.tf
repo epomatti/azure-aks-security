@@ -38,6 +38,9 @@ resource "azurerm_linux_virtual_machine" "main" {
   secure_boot_enabled = false
   vtpm_enabled        = false
 
+  patch_mode                                             = "AutomaticByPlatform"
+  bypass_platform_safety_checks_on_user_schedule_enabled = true
+
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 
   identity {
