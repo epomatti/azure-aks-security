@@ -133,8 +133,6 @@ A Container Registry will be created and attached to the cluster.
 
 The default configuration is using ARM64 node pools.
 
-
-
 To build and push the sample Go application:
 
 ```sh
@@ -150,12 +148,13 @@ az acr import -n <acr-name> --source docker.io/library/nginx:latest --image ngin
 
 ## Virtual network (VNET) integration
 
+Carefully consider [differences between Kubenet and Azure CNI Overlay](https://learn.microsoft.com/en-us/azure/aks/azure-cni-overlay?tabs=kubectl#differences-between-kubenet-and-azure-cni-overlay).
+
 Multiple documentation references on VNET integration:
 
 - [Create a private Azure Kubernetes Service cluster using Terraform and Azure DevOps](https://learn.microsoft.com/en-us/samples/azure-samples/private-aks-cluster-terraform-devops/private-aks-cluster-terraform-devops/)
 - [Create a private Azure Kubernetes Service (AKS) cluster](https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal)
 - [Deploy an Azure Kubernetes cluster - Secure the network flow](https://learn.microsoft.com/en-us/training/modules/deploy-azure-kubernetes-service-cluster/7-secure-network-flow)
-
 
 ## Service Types
 
@@ -164,9 +163,6 @@ Documentation on Service Types:
 - [Access to Azure Kubernetes Service](https://learn.microsoft.com/en-us/training/modules/plan-azure-kubernetes-service-deployment/7-network-access-azure-kubernetes-service)
 
 > To allow access to your applications or between application components, Kubernetes provides an abstraction layer to virtual networking. Kubernetes nodes connect to a virtual network, providing inbound and outbound connectivity for pods. The _kube-proxy_ component runs on each node to provide these network features.
-
-
-
 
 ## Network modes
 
