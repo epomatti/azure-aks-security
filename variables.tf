@@ -51,6 +51,26 @@ variable "aks_private_cluster_enabled" {
   type = bool
 }
 
+variable "aks_network_plugin" {
+  type = string
+}
+
+variable "aks_network_policy" {
+  type = string
+}
+
+variable "aks_network_data_plane" {
+  type = string
+}
+
+variable "aks_network_plugin_mode" {
+  type = string
+}
+
+# variable "aks_network_outbound_type" {
+#   type = string
+# }
+
 # ACR
 variable "acr_sku" {
   type = string

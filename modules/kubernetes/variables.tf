@@ -69,3 +69,23 @@ variable "private_cluster_enabled" {
 variable "jump_server_identity_principal_id" {
   type = string
 }
+
+variable "aks_network_plugin" {
+  type = string
+}
+
+variable "aks_network_policy" {
+  type = string
+}
+
+variable "aks_network_data_plane" {
+  type = string
+}
+
+variable "aks_network_plugin_mode" {
+  type = string
+}
+
+# variable "aks_network_outbound_type" {
+#   type = string
+# }

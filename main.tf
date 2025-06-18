@@ -80,6 +80,12 @@ module "aks" {
   private_cluster_enabled           = var.aks_private_cluster_enabled
   jump_server_identity_principal_id = azurerm_user_assigned_identity.jump_server.principal_id
 
+  aks_network_plugin      = var.aks_network_plugin
+  aks_network_policy      = var.aks_network_policy
+  aks_network_data_plane  = var.aks_network_data_plane
+  aks_network_plugin_mode = var.aks_network_plugin_mode
+  # network_outbound_type = var.aks_network_outbound_type
+
   create_agw             = var.create_agw
   application_gateway_id = var.create_agw == true ? module.application_gateway[0].id : null
 }

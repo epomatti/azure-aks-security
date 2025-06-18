@@ -67,8 +67,11 @@ resource "azurerm_kubernetes_cluster" "default" {
   }
 
   network_profile {
-    network_plugin    = "kubenet"
-    network_policy    = null # TODO: Implement Calico
+    network_plugin      = var.aks_network_plugin
+    network_policy      = var.aks_network_policy
+    network_data_plane  = var.aks_network_data_plane
+    network_plugin_mode = var.aks_network_plugin_mode
+    # network_outbound_type = var.aks_network_outbound_type
     load_balancer_sku = "standard"
 
     # This will not integrate with the existing VNET
@@ -110,9 +113,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "user" {
   node_count            = 1
   auto_scaling_enabled  = false
   mode                  = "User"
-
-  # TODO: Dedicated
-  vnet_subnet_id = var.node_pool_subnet_id
+  vnet_subnet_id        = var.node_pool_subnet_id
 }
 
 resource "azurerm_role_assignment" "acr" {
