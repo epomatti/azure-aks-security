@@ -42,11 +42,10 @@ resource "azurerm_kubernetes_cluster" "default" {
   node_os_upgrade_channel   = var.aks_node_os_upgrade_channel
 
   # Must be false for private clusters
-  private_cluster_public_fqdn_enabled = false
-
-  dns_prefix_private_cluster = "aks${var.workload}-private"
-  private_cluster_enabled    = var.private_cluster_enabled
-  private_dns_zone_id        = azurerm_private_dns_zone.aks.id
+  private_cluster_enabled             = var.private_cluster_enabled
+  private_cluster_public_fqdn_enabled = var.aks_private_cluster_public_fqdn_enabled
+  dns_prefix_private_cluster          = "aks${var.workload}-private"
+  private_dns_zone_id                 = azurerm_private_dns_zone.aks.id
 
   # TODO: Learn this
   # https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes

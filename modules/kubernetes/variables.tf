@@ -66,6 +66,10 @@ variable "private_cluster_enabled" {
   type = bool
 }
 
+variable "aks_private_cluster_public_fqdn_enabled" {
+  type = bool
+}
+
 variable "jump_server_identity_principal_id" {
   type = string
 }

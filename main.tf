@@ -67,18 +67,19 @@ module "aks" {
   resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
 
-  aks_default_node_pool_vm_size     = var.aks_default_node_pool_vm_size
-  aks_user_node_pool_vm_size        = var.aks_user_node_pool_vm_size
-  aks_cluster_sku_tier              = var.aks_cluster_sku_tier
-  aks_automatic_upgrade_channel     = var.aks_automatic_upgrade_channel
-  aks_node_os_upgrade_channel       = var.aks_node_os_upgrade_channel
-  vnet_id                           = module.vnet.vnet_id
-  node_pool_subnet_id               = module.vnet.node_pool_subnet_id
-  local_account_disabled            = var.aks_local_account_disabled
-  azure_rbac_enabled                = var.aks_azure_rbac_enabled
-  acr_id                            = module.acr.id
-  private_cluster_enabled           = var.aks_private_cluster_enabled
-  jump_server_identity_principal_id = azurerm_user_assigned_identity.jump_server.principal_id
+  aks_default_node_pool_vm_size           = var.aks_default_node_pool_vm_size
+  aks_user_node_pool_vm_size              = var.aks_user_node_pool_vm_size
+  aks_cluster_sku_tier                    = var.aks_cluster_sku_tier
+  aks_automatic_upgrade_channel           = var.aks_automatic_upgrade_channel
+  aks_node_os_upgrade_channel             = var.aks_node_os_upgrade_channel
+  vnet_id                                 = module.vnet.vnet_id
+  node_pool_subnet_id                     = module.vnet.node_pool_subnet_id
+  local_account_disabled                  = var.aks_local_account_disabled
+  azure_rbac_enabled                      = var.aks_azure_rbac_enabled
+  acr_id                                  = module.acr.id
+  aks_private_cluster_public_fqdn_enabled = var.aks_private_cluster_public_fqdn_enabled
+  private_cluster_enabled                 = var.aks_private_cluster_enabled
+  jump_server_identity_principal_id       = azurerm_user_assigned_identity.jump_server.principal_id
 
   aks_network_plugin      = var.aks_network_plugin
   aks_network_policy      = var.aks_network_policy
