@@ -44,8 +44,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   # Must be false for private clusters
   private_cluster_enabled             = var.private_cluster_enabled
   private_cluster_public_fqdn_enabled = var.aks_private_cluster_public_fqdn_enabled
-  dns_prefix_private_cluster          = "aks${var.workload}-private"
-  private_dns_zone_id                 = azurerm_private_dns_zone.aks.id
+  dns_prefix                          = var.private_cluster_enabled ? null : "aks${var.workload}"
+  dns_prefix_private_cluster          = var.private_cluster_enabled ? "aks${var.workload}-private" : null
+  private_dns_zone_id                 = var.private_cluster_enabled ? azurerm_private_dns_zone.aks.id : null
 
   # TODO: Learn this
   # https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes
