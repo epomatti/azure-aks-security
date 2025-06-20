@@ -34,7 +34,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   name                = "aks-${var.workload}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  node_resource_group = "rg-${var.workload}-aks"
+  node_resource_group = "rg-${var.workload}-managed-aks"
 
   sku_tier                  = var.aks_cluster_sku_tier
   local_account_disabled    = var.local_account_disabled
@@ -104,6 +104,8 @@ resource "azurerm_kubernetes_cluster" "default" {
       web_app_routing
     ]
   }
+
+  depends_on = [azurerm_role_assignment.private_dnz_zone_contributor]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "user" {
