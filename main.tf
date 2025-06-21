@@ -51,6 +51,15 @@ module "vnet_aks" {
   location            = var.location
 }
 
+module "vnet_peering" {
+  source              = "./modules/virtual-network/peering"
+  resource_group_name = azurerm_resource_group.workload.name
+  aks_vnet_id         = module.vnet_aks.vnet_id
+  aks_vnet_name       = module.vnet_aks.vnet_name
+  corporate_vnet_id   = module.vnet_corporate.vnet_id
+  corporate_vnet_name = module.vnet_corporate.vnet_name
+}
+
 module "monitor" {
   source              = "./modules/monitor"
   workload            = local.workload
