@@ -36,12 +36,19 @@ resource "azurerm_resource_group" "private_link" {
   location = var.location
 }
 
-module "vnet" {
-  source              = "./modules/virtual-network"
+module "vnet_corporate" {
+  source              = "./modules/virtual-network/corporate"
   workload            = local.workload
   resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
   ssh_allowed_ips     = var.aks_authorized_ip_ranges
+}
+
+module "vnet_aks" {
+  source              = "./modules/virtual-network/kubernetes"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.workload.name
+  location            = var.location
 }
 
 module "monitor" {
@@ -72,8 +79,8 @@ module "aks" {
   aks_cluster_sku_tier                    = var.aks_cluster_sku_tier
   aks_automatic_upgrade_channel           = var.aks_automatic_upgrade_channel
   aks_node_os_upgrade_channel             = var.aks_node_os_upgrade_channel
-  vnet_id                                 = module.vnet.vnet_id
-  node_pool_subnet_id                     = module.vnet.node_pool_subnet_id
+  vnet_id                                 = module.vnet_aks.vnet_id
+  node_pool_subnet_id                     = module.vnet_aks.nodes_subnet_id
   local_account_disabled                  = var.aks_local_account_disabled
   azure_rbac_enabled                      = var.aks_azure_rbac_enabled
   acr_id                                  = module.acr.id
@@ -106,7 +113,7 @@ module "jump_server" {
   vm_admin_username              = var.vm_jump_admin_username
   vm_size                        = var.vm_jump_size
   vm_osdisk_storage_account_type = var.vm_jump_osdisk_storage_account_type
-  subnet_id                      = module.vnet.jump_server_subnet_id
+  subnet_id                      = module.vnet_corporate.jump_server_subnet_id
   user_assigned_identity_id      = azurerm_user_assigned_identity.jump_server.id
 
   vm_image_publisher = var.vm_jump_image_publisher
@@ -121,7 +128,7 @@ module "application_gateway_for_containers" {
   workload            = local.workload
   resource_group_name = azurerm_resource_group.workload.name
   location            = var.location
-  subnet_id           = module.vnet.agwc_subnet_id
+  subnet_id           = module.vnet_aks.agwc_subnet_id
 }
 
 module "application_gateway" {
@@ -132,8 +139,8 @@ module "application_gateway" {
   location            = var.location
 
   # Network
-  subnet_id              = module.vnet.agw_subnet_id
-  virtual_network_name   = module.vnet.vnet_name
+  subnet_id              = module.vnet_aks.agw_subnet_id
+  virtual_network_name   = module.vnet_aks.vnet_name
   agw_private_ip_address = var.agw_private_ip_address
 
   # SKU
@@ -175,8 +182,8 @@ module "private_link" {
   source                      = "./modules/private-link"
   resource_group_name         = azurerm_resource_group.private_link.name
   location                    = var.location
-  vnet_id                     = module.vnet.vnet_id
-  private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
+  vnet_id                     = module.vnet_corporate.vnet_id
+  private_endpoints_subnet_id = module.vnet_corporate.private_endpoints_subnet_id
   container_registry_id       = module.acr.id
   acr_create_private_endpoint = var.acr_create_private_endpoint
 }
