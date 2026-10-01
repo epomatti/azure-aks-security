@@ -6,16 +6,15 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled                 = false
   public_network_access_enabled = true
 
-  dynamic "network_rule_set" {
-    for_each = var.acr_sku == "Premium" ? [1] : []
-    content {
-      default_action = "Deny"
+  network_rule_set {
+    default_action = "Deny"
 
-      ip_rule {
+    ip_rule = [
+      for ip in var.authorized_ip_ranges : {
         action   = "Allow"
-        ip_range = var.authorized_cidr_block
+        ip_range = ip
       }
-    }
+    ]
   }
 
   network_rule_bypass_option = "AzureServices"

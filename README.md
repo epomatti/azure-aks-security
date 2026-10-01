@@ -7,7 +7,7 @@ AKS security features implemented.
 Start by creating the `.auto.tfvars` file from the template:
 
 ```sh
-cp config/local.auto.tfvars .auto.tfvars
+cp config/default.tfvars .auto.tfvars
 ```
 
 Create the SSH key park:

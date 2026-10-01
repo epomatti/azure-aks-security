@@ -1,3 +1,4 @@
+### Project
 variable "subscription_id" {
   type = string
 }
@@ -6,148 +7,158 @@ variable "location" {
   type = string
 }
 
-variable "aks_default_node_pool_vm_size" {
-  type = string
-}
-
-variable "aks_user_node_pool_vm_size" {
-  type = string
-}
-
-variable "aks_cluster_sku_tier" {
-  type = string
-}
-
-variable "aks_automatic_upgrade_channel" {
-  type = string
-}
-
-variable "aks_node_os_upgrade_channel" {
-  type = string
-}
-
-variable "entraid_tenant_domain" {
-  type = string
-}
-
-variable "generic_password" {
-  type      = string
-  sensitive = true
-}
-
-variable "aks_local_account_disabled" {
-  type = bool
-}
-
-variable "aks_azure_rbac_enabled" {
-  type = bool
-}
-
-variable "aks_authorized_ip_ranges" {
+### Shared
+variable "authorized_ip_ranges" {
   type = list(string)
 }
 
-variable "aks_private_cluster_enabled" {
-  type = bool
-}
-
-variable "aks_private_cluster_public_fqdn_enabled" {
-  type = bool
-}
-
-variable "aks_network_plugin" {
-  type = string
-}
-
-variable "aks_network_policy" {
-  type = string
-}
-
-variable "aks_network_data_plane" {
-  type = string
-}
-
-variable "aks_network_plugin_mode" {
-  type = string
-}
-
-# variable "aks_network_outbound_type" {
-#   type = string
-# }
-
-# ACR
+### Container Registry
 variable "acr_sku" {
   type = string
 }
 
-variable "acr_create_private_endpoint" {
-  type = bool
-}
+# variable "aks_default_node_pool_vm_size" {
+#   type = string
+# }
 
-# Application Gateway for Containers
-variable "create_agwc" {
-  type = bool
-}
+# variable "aks_user_node_pool_vm_size" {
+#   type = string
+# }
 
-# Application Gateway
-variable "create_agw" {
-  type = bool
-}
+# variable "aks_cluster_sku_tier" {
+#   type = string
+# }
 
-variable "agw_sku_name" {
-  type = string
-}
+# variable "aks_automatic_upgrade_channel" {
+#   type = string
+# }
 
-variable "agw_sku_tier" {
-  type = string
-}
+# variable "aks_node_os_upgrade_channel" {
+#   type = string
+# }
 
-variable "agw_sku_capacity" {
-  type = number
-}
+# variable "entraid_tenant_domain" {
+#   type = string
+# }
 
-variable "agw_private_ip_address" {
-  type = string
-}
+# variable "generic_password" {
+#   type      = string
+#   sensitive = true
+# }
 
-# Web Application Firewall (WAF)
-variable "create_waf_policy" {
-  type = bool
-}
+# variable "aks_local_account_disabled" {
+#   type = bool
+# }
 
-variable "attach_waf_policy_to_gateway" {
-  type = bool
-}
+# variable "aks_azure_rbac_enabled" {
+#   type = bool
+# }
 
-# Jump Server
-variable "vm_jump_admin_username" {
-  type = string
-}
+# variable "aks_authorized_ip_ranges" {
+#   type = list(string)
+# }
 
-variable "vm_jump_public_key_path" {
-  type = string
-}
+# variable "aks_private_cluster_enabled" {
+#   type = bool
+# }
 
-variable "vm_jump_size" {
-  type = string
-}
+# variable "aks_private_cluster_public_fqdn_enabled" {
+#   type = bool
+# }
 
-variable "vm_jump_osdisk_storage_account_type" {
-  type = string
-}
+# variable "aks_network_plugin" {
+#   type = string
+# }
 
-variable "vm_jump_image_publisher" {
-  type = string
-}
+# variable "aks_network_policy" {
+#   type = string
+# }
 
-variable "vm_jump_image_offer" {
-  type = string
-}
+# variable "aks_network_data_plane" {
+#   type = string
+# }
 
-variable "vm_jump_image_sku" {
-  type = string
-}
+# variable "aks_network_plugin_mode" {
+#   type = string
+# }
 
-variable "vm_jump_image_version" {
-  type = string
-}
+# # variable "aks_network_outbound_type" {
+# #   type = string
+# # }
+
+# # ACR
+# variable "acr_sku" {
+#   type = string
+# }
+
+# variable "acr_create_private_endpoint" {
+#   type = bool
+# }
+
+# # Application Gateway for Containers
+# variable "create_agwc" {
+#   type = bool
+# }
+
+# # Application Gateway
+# variable "create_agw" {
+#   type = bool
+# }
+
+# variable "agw_sku_name" {
+#   type = string
+# }
+
+# variable "agw_sku_tier" {
+#   type = string
+# }
+
+# variable "agw_sku_capacity" {
+#   type = number
+# }
+
+# variable "agw_private_ip_address" {
+#   type = string
+# }
+
+# # Web Application Firewall (WAF)
+# variable "create_waf_policy" {
+#   type = bool
+# }
+
+# variable "attach_waf_policy_to_gateway" {
+#   type = bool
+# }
+
+# # Jump Server
+# variable "vm_jump_admin_username" {
+#   type = string
+# }
+
+# variable "vm_jump_public_key_path" {
+#   type = string
+# }
+
+# variable "vm_jump_size" {
+#   type = string
+# }
+
+# variable "vm_jump_osdisk_storage_account_type" {
+#   type = string
+# }
+
+# variable "vm_jump_image_publisher" {
+#   type = string
+# }
+
+# variable "vm_jump_image_offer" {
+#   type = string
+# }
+
+# variable "vm_jump_image_sku" {
+#   type = string
+# }
+
+# variable "vm_jump_image_version" {
+#   type = string
+# }

@@ -1,9 +1,4 @@
-data "azurerm_subscription" "current" {
-  subscription_id = var.subscription_id
-}
-
-# When using VNET integration, User Assigned Identities are strongly recommended (required?) for AKS.
-# https://learn.microsoft.com/en-us/azure/aks/configure-kubenet?_ga=2.141939570.1510144942.1703251968-967359652.1700361706
+# Recommended: https://learn.microsoft.com/en-us/azure/aks/configure-kubenet
 resource "azurerm_user_assigned_identity" "aks" {
   name                = "aks-cluster-${var.workload}-identity"
   location            = var.location
@@ -16,8 +11,7 @@ resource "azurerm_role_assignment" "network_contributor" {
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
-# Private DNS Zone for AKS
-# https://learn.microsoft.com/en-us/azure/aks/private-clusters-dns
+# Private DNS Zone for AKS: https://learn.microsoft.com/en-us/azure/aks/private-clusters-dns
 resource "azurerm_private_dns_zone" "aks" {
   name                = "privatelink.${var.location}.azmk8s.io"
   resource_group_name = var.resource_group_name

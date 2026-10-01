@@ -2,18 +2,18 @@ variable "resource_group_name" {
   type = string
 }
 
-variable "aks_vnet_id" {
+variable "location" {
   type = string
 }
 
-variable "corporate_vnet_id" {
+variable "vnet_id" {
   type = string
 }
 
-variable "aks_vnet_name" {
+variable "private_endpoints_subnet_id" {
   type = string
 }
 
-variable "corporate_vnet_name" {
+variable "container_registry_id" {
   type = string
 }
