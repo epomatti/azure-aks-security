@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 5.7.0"
+      version = ">= 5.8.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -24,6 +24,7 @@ resource "random_string" "affix" {
 locals {
   workload  = "contoso${random_string.affix.result}"
   tenant_id = data.azurerm_subscription.current.tenant_id
+  zones     = ["1", "2", "3"]
 }
 
 module "resource_groups" {
@@ -64,42 +65,39 @@ module "private_link" {
   container_registry_id       = module.container_registry.id
 }
 
-# module "aks" {
-#   source              = "./modules/kubernetes"
-#   subscription_id     = var.subscription_id
-#   workload            = local.workload
-#   resource_group_name = azurerm_resource_group.workload.name
-#   location            = var.location
+module "private_dns" {
+  source              = "./modules/private_dns_zones"
+  resource_group_name = module.resource_groups.network_resource_group_name
+  location            = var.location
+}
 
-#   aks_default_node_pool_vm_size           = var.aks_default_node_pool_vm_size
-#   aks_user_node_pool_vm_size              = var.aks_user_node_pool_vm_size
-#   aks_cluster_sku_tier                    = var.aks_cluster_sku_tier
-#   aks_automatic_upgrade_channel           = var.aks_automatic_upgrade_channel
-#   aks_node_os_upgrade_channel             = var.aks_node_os_upgrade_channel
-#   vnet_id                                 = module.vnet_aks.vnet_id
-#   node_pool_subnet_id                     = module.vnet_aks.nodes_subnet_id
-#   local_account_disabled                  = var.aks_local_account_disabled
-#   azure_rbac_enabled                      = var.aks_azure_rbac_enabled
-#   acr_id                                  = module.acr.id
-#   aks_private_cluster_public_fqdn_enabled = var.aks_private_cluster_public_fqdn_enabled
-#   private_cluster_enabled                 = var.aks_private_cluster_enabled
-#   jump_server_identity_principal_id       = azurerm_user_assigned_identity.jump_server.principal_id
+module "kubernetes_identity" {
+  source                                 = "./modules/identity/kubernetes"
+  workload                               = local.workload
+  location                               = var.location
+  resource_group_name                    = module.resource_groups.kubernetes_resource_group_name
+  vnet_id                                = module.network.vnet_id
+  privatelink_azmk8s_private_dns_zone_id = module.private_dns.privatelink_azmk8s_private_dns_zone_id
+  container_registry_id                  = module.container_registry.id
+}
 
-#   aks_network_plugin      = var.aks_network_plugin
-#   aks_network_policy      = var.aks_network_policy
-#   aks_network_data_plane  = var.aks_network_data_plane
-#   aks_network_plugin_mode = var.aks_network_plugin_mode
-#   # network_outbound_type = var.aks_network_outbound_type
+module "kubernetes" {
+  source                    = "./modules/kubernetes"
+  workload                  = local.workload
+  location                  = var.location
+  resource_group_name       = module.resource_groups.kubernetes_resource_group_name
+  cluster_subnet_id         = module.network.aks_nodes_subnet_id
+  private_dns_zone_id       = module.private_dns.privatelink_azmk8s_private_dns_zone_id
+  zones                     = local.zones
+  container_registry_id     = module.container_registry.id
+  user_assigned_identity_id = module.kubernetes_identity.user_assigned_identity_id
 
-#   create_agw             = var.create_agw
-#   application_gateway_id = var.create_agw == true ? module.application_gateway[0].id : null
-# }
-
-# resource "azurerm_user_assigned_identity" "jump_server" {
-#   name                = "id-vm-${local.workload}"
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.workload.name
-# }
+  depends_on = [
+    module.kubernetes_identity,
+    module.private_link,
+    module.private_dns,
+  ]
+}
 
 # module "jump_server" {
 #   source                         = "./modules/jump-server"
