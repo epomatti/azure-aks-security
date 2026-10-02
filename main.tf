@@ -98,6 +98,23 @@ module "kubernetes" {
   ]
 }
 
+module "web_application_firewall" {
+  source                     = "./modules/web_application_firewall"
+  workload                   = local.workload
+  resource_group_name        = module.resource_groups.kubernetes_resource_group_name
+  location                   = var.location
+  log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
+}
+
+module "application_gateway_for_containers" {
+  source                             = "./modules/application_gateway/containers"
+  workload                           = local.workload
+  resource_group_name                = module.resource_groups.kubernetes_resource_group_name
+  location                           = var.location
+  subnet_id                          = module.network.application_gateway_for_containers_subnet_id
+  web_application_firewall_policy_id = module.web_application_firewall.web_application_firewall_policy_id
+}
+
 # module "jump_server" {
 #   source                         = "./modules/jump-server"
 #   location                       = azurerm_resource_group.jump_server.location
@@ -116,14 +133,7 @@ module "kubernetes" {
 #   vm_image_version   = var.vm_jump_image_version
 # }
 
-# module "application_gateway_for_containers" {
-#   count               = var.create_agwc ? 1 : 0
-#   source              = "./modules/application-gateway-for-containers"
-#   workload            = local.workload
-#   resource_group_name = azurerm_resource_group.workload.name
-#   location            = var.location
-#   subnet_id           = module.vnet_aks.agwc_subnet_id
-# }
+
 
 # module "application_gateway" {
 #   count               = var.create_agw ? 1 : 0
@@ -144,15 +154,6 @@ module "kubernetes" {
 
 #   # WAF
 #   waf_policy_id = var.attach_waf_policy_to_gateway ? module.waf_policy[0].id : null
-# }
-
-# module "waf_policy" {
-#   count                      = var.create_waf_policy ? 1 : 0
-#   source                     = "./modules/waf-policy"
-#   workload                   = local.workload
-#   resource_group_name        = azurerm_resource_group.workload.name
-#   location                   = var.location
-#   log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
 # }
 
 # module "storage" {

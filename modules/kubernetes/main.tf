@@ -119,6 +119,15 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   # }
 
+  ##############################################################################
+  ### SECURITY
+  ##############################################################################
+
+  oidc_issuer_enabled          = true
+  workload_identity_enabled    = true
+  image_cleaner_enabled        = true
+  image_cleaner_interval_hours = 168
+
   identity {
     type         = "UserAssigned"
     identity_ids = [var.user_assigned_identity_id]

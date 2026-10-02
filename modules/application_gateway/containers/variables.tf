@@ -13,3 +13,7 @@ variable "location" {
 variable "subnet_id" {
   type = string
 }
+
+variable "web_application_firewall_policy_id" {
+  type = string
+}
