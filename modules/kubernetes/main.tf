@@ -23,6 +23,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     interval    = 1
     duration    = 8
     start_time  = "00:00"
+    utc_offset  = "+00:00"
   }
 
   node_os_upgrade_channel = "NodeImage"
@@ -33,6 +34,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     interval    = 1
     duration    = 8
     start_time  = "00:00"
+    utc_offset  = "+00:00"
   }
 
   local_account_disabled = true
@@ -61,6 +63,12 @@ resource "azurerm_kubernetes_cluster" "main" {
     os_sku                 = "Ubuntu"
     max_pods               = 110
     node_public_ip_enabled = false
+
+    upgrade_settings {
+      drain_timeout_in_minutes      = 0
+      max_surge                     = "10%"
+      node_soak_duration_in_minutes = 0
+    }
   }
 
   ##############################################################################
@@ -86,15 +94,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     # }
   }
 
-  dns_prefix_private_cluster = "myprefix" # TODO: Replace with a meaningful prefix for the private cluster
+  dns_prefix_private_cluster = "apiserver-${var.workload}"
 
   ##############################################################################
   ### INTEGRATIONS
   ##############################################################################
 
   # bootstrap_profile {
-  #   container_registry_id = var.container_registry_id
-  #   # artifact_source = 
+  #   # artifact_source = ""
   # }
 
   # open_service_mesh_enabled = true
@@ -134,9 +141,21 @@ resource "azurerm_kubernetes_cluster_node_pool" "userpool" {
   node_count            = 1
   auto_scaling_enabled  = false
   os_sku                = "Ubuntu"
+
+  upgrade_settings {
+    drain_timeout_in_minutes      = 0
+    max_surge                     = "10%"
+    node_soak_duration_in_minutes = 0
+  }
 }
 
-
+# Registry attachment
+resource "azurerm_role_assignment" "container_registry_acr_pull" {
+  principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = var.container_registry_id
+  skip_service_principal_aad_check = true
+}
 
 
 ### Cluster ###

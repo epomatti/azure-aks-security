@@ -78,7 +78,6 @@ module "kubernetes_identity" {
   resource_group_name                    = module.resource_groups.kubernetes_resource_group_name
   vnet_id                                = module.network.vnet_id
   privatelink_azmk8s_private_dns_zone_id = module.private_dns.privatelink_azmk8s_private_dns_zone_id
-  container_registry_id                  = module.container_registry.id
 }
 
 module "kubernetes" {

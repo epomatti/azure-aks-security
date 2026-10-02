@@ -17,7 +17,3 @@ variable "vnet_id" {
 variable "privatelink_azmk8s_private_dns_zone_id" {
   type = string
 }
-
-variable "container_registry_id" {
-  type = string
-}

@@ -6,20 +6,15 @@ resource "azurerm_user_assigned_identity" "aks" {
 }
 
 resource "azurerm_role_assignment" "network_contributor" {
-  scope                = var.vnet_id
-  role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.aks.principal_id
+  scope                            = var.vnet_id
+  role_definition_name             = "Network Contributor"
+  principal_id                     = azurerm_user_assigned_identity.aks.principal_id
+  skip_service_principal_aad_check = true
 }
 
 resource "azurerm_role_assignment" "private_dnz_zone_contributor" {
-  scope                = var.privatelink_azmk8s_private_dns_zone_id
-  role_definition_name = "Private DNS Zone Contributor"
-  principal_id         = azurerm_user_assigned_identity.aks.principal_id
-}
-
-resource "azurerm_role_assignment" "container_registry_acr_pull" {
+  scope                            = var.privatelink_azmk8s_private_dns_zone_id
+  role_definition_name             = "Private DNS Zone Contributor"
   principal_id                     = azurerm_user_assigned_identity.aks.principal_id
-  role_definition_name             = "AcrPull"
-  scope                            = var.container_registry_id
-  # skip_service_principal_aad_check = true
+  skip_service_principal_aad_check = true
 }
