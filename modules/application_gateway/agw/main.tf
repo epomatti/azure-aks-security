@@ -21,7 +21,7 @@ resource "azurerm_application_gateway" "default" {
   name                = "agw-${var.workload}"
   resource_group_name = var.resource_group_name
   location            = var.location
-  enable_http2        = true
+  http2_enabled       = true
   firewall_policy_id  = var.waf_policy_id
 
   sku {
