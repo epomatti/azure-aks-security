@@ -4,6 +4,16 @@ AKS security features implemented.
 
 ## Provisioning
 
+Start by registering the required providers:
+
+```sh
+az provider register --namespace Microsoft.ContainerService
+az provider register --namespace Microsoft.Network
+az provider register --namespace Microsoft.NetworkFunction
+az provider register --namespace Microsoft.ServiceNetworking
+az provider register --namespace Microsoft.KubernetesConfiguration
+```
+
 Start by creating the `.auto.tfvars` file from the template:
 
 ```sh
@@ -23,6 +33,8 @@ subscription_id          = "00000000-0000-0000-0000-000000000000"
 entraid_tenant_domain    = "<TENANT>"
 aks_authorized_ip_ranges = ["1.2.3.4/30"]
 ```
+
+
 
 Create the cluster:
 
