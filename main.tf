@@ -98,21 +98,21 @@ module "kubernetes" {
   ]
 }
 
-module "web_application_firewall" {
-  source                     = "./modules/web_application_firewall"
-  workload                   = local.workload
-  resource_group_name        = module.resource_groups.kubernetes_resource_group_name
-  location                   = var.location
-  log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
-}
+# module "web_application_firewall" {
+#   source                     = "./modules/web_application_firewall"
+#   workload                   = local.workload
+#   resource_group_name        = module.resource_groups.kubernetes_resource_group_name
+#   location                   = var.location
+#   log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
+# }
 
 module "application_gateway_for_containers" {
-  source                             = "./modules/application_gateway/containers"
-  workload                           = local.workload
-  resource_group_name                = module.resource_groups.kubernetes_resource_group_name
-  location                           = var.location
-  subnet_id                          = module.network.application_gateway_for_containers_subnet_id
-  web_application_firewall_policy_id = module.web_application_firewall.web_application_firewall_policy_id
+  source              = "./modules/application_gateway/containers"
+  workload            = local.workload
+  resource_group_name = module.resource_groups.kubernetes_resource_group_name
+  location            = var.location
+  subnet_id           = module.network.application_gateway_for_containers_subnet_id
+  # web_application_firewall_policy_id = module.web_application_firewall.web_application_firewall_policy_id
 }
 
 # module "jump_server" {

@@ -14,7 +14,7 @@ resource "azurerm_web_application_firewall_policy" "default" {
   managed_rules {
     managed_rule_set {
       type    = "Microsoft_DefaultRuleSet"
-      version = "2.2"
+      version = "2.1"
     }
   }
 }
