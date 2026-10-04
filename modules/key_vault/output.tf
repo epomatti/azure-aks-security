@@ -1,7 +1,11 @@
-output "id" {
-  value = azurerm_key_vault.databricks.id
+output "key_vault_id" {
+  value = azurerm_key_vault.default.id
 }
 
-output "vault_uri" {
-  value = azurerm_key_vault.databricks.vault_uri
+output "key_vault_uri" {
+  value = azurerm_key_vault.default.vault_uri
+}
+
+output "kubernetes_cluster_key_id" {
+  value = azurerm_key_vault_key.kubernetes_cluster.id
 }

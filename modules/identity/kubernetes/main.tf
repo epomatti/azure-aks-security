@@ -18,3 +18,17 @@ resource "azurerm_role_assignment" "private_dnz_zone_contributor" {
   principal_id                     = azurerm_user_assigned_identity.aks.principal_id
   skip_service_principal_aad_check = true
 }
+
+resource "azurerm_role_assignment" "key_vault_crypto_user" {
+  scope                            = var.key_vault_id
+  role_definition_name             = "Key Vault Crypto User"
+  principal_id                     = azurerm_user_assigned_identity.aks.principal_id
+  skip_service_principal_aad_check = true
+}
+
+resource "azurerm_role_assignment" "key_vault_contributor" {
+  scope                            = var.key_vault_id
+  role_definition_name             = "Key Vault Contributor"
+  principal_id                     = azurerm_user_assigned_identity.aks.principal_id
+  skip_service_principal_aad_check = true
+}

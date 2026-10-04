@@ -17,3 +17,7 @@ variable "private_endpoints_subnet_id" {
 variable "container_registry_id" {
   type = string
 }
+
+variable "key_vault_id" {
+  type = string
+}

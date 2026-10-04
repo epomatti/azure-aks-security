@@ -1,72 +1,54 @@
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_key_vault" "databricks" {
-  name                     = "kv-${var.workload}789"
-  location                 = var.location
-  resource_group_name      = var.group
-  tenant_id                = data.azurerm_client_config.current.tenant_id
-  purge_protection_enabled = false
-  sku_name                 = "standard"
+locals {
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = data.azurerm_client_config.current.object_id
+}
 
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
+resource "azurerm_key_vault" "default" {
+  name                = "kv-${var.workload}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  tenant_id           = local.tenant_id
+  sku_name            = "standard"
 
-    secret_permissions = ["Delete", "Get", "List", "Set", "Purge"]
+  # Private AKS access is currently in Preview: https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption?pivots=cmk-private
+  public_network_access_enabled = true
+
+  # Required for CMK operations
+  purge_protection_enabled   = true
+  soft_delete_retention_days = 7
+  rbac_authorization_enabled = true
+}
+
+resource "azurerm_role_assignment" "current_key_vault_administrator" {
+  scope                = azurerm_key_vault.default.id
+  role_definition_name = "Key Vault Administrator"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
+resource "azurerm_key_vault_key" "kubernetes_cluster" {
+  name         = "cmk-kubernetes-cluster"
+  key_vault_id = azurerm_key_vault.default.id
+  key_type     = "RSA"
+  key_size     = 4096
+
+  key_opts = [
+    "decrypt",
+    "encrypt",
+    "sign",
+    "unwrapKey",
+    "verify",
+    "wrapKey",
+  ]
+
+  rotation_policy {
+    automatic {
+      time_before_expiry = "P30D"
+    }
+    notify_before_expiry = "P29D"
+    expire_after         = "P90D"
   }
 
-  # FIXME: Should be controlled with AzureDatabricks user
-  lifecycle {
-    ignore_changes = [access_policy]
-  }
-
-  # TODO: Network
-}
-
-resource "azurerm_key_vault_secret" "sql_database_admin_username" {
-  name         = "mssqlusername"
-  value        = var.mssql_admin_login
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "sql_database_admin_password" {
-  name         = "mssqlpassword"
-  value        = var.mssql_admin_login_password
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "datalake_connection_string" {
-  name         = "dlsconnectionstring"
-  value        = var.datalake_connection_string
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "datalake_access_key" {
-  name         = "dlsaccesskey"
-  value        = var.datalake_access_key
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "databricks_sp_secret" {
-  name         = "dlsserviceprincipalsecret"
-  value        = var.databricks_sp_secret
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "synapse_sql_administrator_login" {
-  name         = "synapselogin"
-  value        = var.synapse_sql_administrator_login
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "synapse_sql_administrator_login_password" {
-  name         = "synapseloginpassword"
-  value        = var.synapse_sql_administrator_login_password
-  key_vault_id = azurerm_key_vault.databricks.id
-}
-
-resource "azurerm_key_vault_secret" "bus_connection_string" {
-  name         = "servicebusconnectionstring"
-  value        = var.bus_connection_string
-  key_vault_id = azurerm_key_vault.databricks.id
+  depends_on = [azurerm_role_assignment.current_key_vault_administrator]
 }

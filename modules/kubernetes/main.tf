@@ -128,6 +128,20 @@ resource "azurerm_kubernetes_cluster" "main" {
   image_cleaner_enabled        = true
   image_cleaner_interval_hours = 168
 
+  disk_encryption_set_id = var.disk_encryption_set_id
+
+  key_management_service {
+    key_vault_key_id = var.key_vault_key_id
+
+    # Currently using "Private" access is in Preview and not generally available.
+    # https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption?pivots=cmk-private
+    key_vault_network_access = "Public"
+  }
+
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
+  }
+
   identity {
     type         = "UserAssigned"
     identity_ids = [var.user_assigned_identity_id]
@@ -168,11 +182,11 @@ resource "azurerm_role_assignment" "container_registry_acr_pull" {
 }
 
 # Flux extension for GitOps management
-resource "azurerm_kubernetes_cluster_extension" "flux" {
-  name           = "flux"
-  cluster_id     = azurerm_kubernetes_cluster.main.id
-  extension_type = "microsoft.flux"
-}
+# resource "azurerm_kubernetes_cluster_extension" "flux" {
+#   name           = "flux"
+#   cluster_id     = azurerm_kubernetes_cluster.main.id
+#   extension_type = "microsoft.flux"
+# }
 
 # resource "azurerm_kubernetes_flux_configuration" "dev_flux" {
 #   name       = "example-fc"

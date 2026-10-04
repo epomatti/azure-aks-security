@@ -29,3 +29,15 @@ variable "container_registry_id" {
 variable "user_assigned_identity_id" {
   type = string
 }
+
+variable "key_vault_id" {
+  type = string
+}
+
+variable "key_vault_key_id" {
+  type = string
+}
+
+variable "disk_encryption_set_id" {
+  type = string
+}

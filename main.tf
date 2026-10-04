@@ -11,10 +11,6 @@ terraform {
   }
 }
 
-data "azurerm_subscription" "current" {
-  subscription_id = var.subscription_id
-}
-
 resource "random_string" "affix" {
   numeric     = true
   length      = 3
@@ -22,9 +18,8 @@ resource "random_string" "affix" {
 }
 
 locals {
-  workload  = "contoso${random_string.affix.result}"
-  tenant_id = data.azurerm_subscription.current.tenant_id
-  zones     = ["1", "2", "3"]
+  workload = "contoso${random_string.affix.result}"
+  zones    = ["1", "2", "3"]
 }
 
 module "resource_groups" {
@@ -56,6 +51,22 @@ module "container_registry" {
   authorized_ip_ranges = var.authorized_ip_ranges
 }
 
+module "key_vault" {
+  source              = "./modules/key_vault"
+  workload            = local.workload
+  resource_group_name = module.resource_groups.kubernetes_resource_group_name
+  location            = var.location
+}
+
+module "disk_encryption_set" {
+  source              = "./modules/disk_encryption_set"
+  workload            = local.workload
+  resource_group_name = module.resource_groups.kubernetes_resource_group_name
+  location            = var.location
+  key_vault_key_id    = module.key_vault.kubernetes_cluster_key_id
+  key_vault_id        = module.key_vault.key_vault_id
+}
+
 module "private_link" {
   source                      = "./modules/private_link"
   resource_group_name         = module.resource_groups.private_link_resource_group_name
@@ -63,6 +74,7 @@ module "private_link" {
   vnet_id                     = module.network.vnet_id
   private_endpoints_subnet_id = module.network.private_endpoints_subnet_id
   container_registry_id       = module.container_registry.id
+  key_vault_id                = module.key_vault.key_vault_id
 }
 
 module "private_dns" {
@@ -78,6 +90,7 @@ module "kubernetes_identity" {
   resource_group_name                    = module.resource_groups.kubernetes_resource_group_name
   vnet_id                                = module.network.vnet_id
   privatelink_azmk8s_private_dns_zone_id = module.private_dns.privatelink_azmk8s_private_dns_zone_id
+  key_vault_id                           = module.key_vault.key_vault_id
 }
 
 module "kubernetes" {
@@ -90,11 +103,16 @@ module "kubernetes" {
   zones                     = local.zones
   container_registry_id     = module.container_registry.id
   user_assigned_identity_id = module.kubernetes_identity.user_assigned_identity_id
+  key_vault_id              = module.key_vault.key_vault_id
+  key_vault_key_id          = module.key_vault.kubernetes_cluster_key_id
+  disk_encryption_set_id    = module.disk_encryption_set.aks_cluster_disk_encryption_set_id
 
   depends_on = [
     module.kubernetes_identity,
     module.private_link,
     module.private_dns,
+    module.key_vault,
+    module.disk_encryption_set,
   ]
 }
 
@@ -106,14 +124,14 @@ module "kubernetes" {
 #   log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
 # }
 
-module "application_gateway_for_containers" {
-  source              = "./modules/application_gateway/containers"
-  workload            = local.workload
-  resource_group_name = module.resource_groups.kubernetes_resource_group_name
-  location            = var.location
-  subnet_id           = module.network.application_gateway_for_containers_subnet_id
-  # web_application_firewall_policy_id = module.web_application_firewall.web_application_firewall_policy_id
-}
+# module "application_gateway_for_containers" {
+#   source              = "./modules/application_gateway/containers"
+#   workload            = local.workload
+#   resource_group_name = module.resource_groups.kubernetes_resource_group_name
+#   location            = var.location
+#   subnet_id           = module.network.application_gateway_for_containers_subnet_id
+#   # web_application_firewall_policy_id = module.web_application_firewall.web_application_firewall_policy_id
+# }
 
 # module "jump_server" {
 #   source                         = "./modules/jump-server"
