@@ -181,6 +181,15 @@ resource "azurerm_role_assignment" "container_registry_acr_pull" {
   skip_service_principal_aad_check = true
 }
 
+
+
+# https://learn.microsoft.com/en-us/azure/backup/quick-kubernetes-backup-terraform
+
+
+
+
+
+
 # Flux extension for GitOps management
 # resource "azurerm_kubernetes_cluster_extension" "flux" {
 #   name           = "flux"

@@ -13,3 +13,7 @@ output "private_link_resource_group_name" {
 output "monitor_resource_group_name" {
   value = azurerm_resource_group.monitor.name
 }
+
+output "backup_name" {
+  value = azurerm_resource_group.backup.name
+}

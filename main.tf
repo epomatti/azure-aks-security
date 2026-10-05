@@ -116,6 +116,13 @@ module "kubernetes" {
   ]
 }
 
+module "backup_vault" {
+  source              = "./modules/backup_vault"
+  workload            = local.workload
+  resource_group_name = module.resource_groups.backup_name
+  location            = var.location
+}
+
 # module "web_application_firewall" {
 #   source                     = "./modules/web_application_firewall"
 #   workload                   = local.workload

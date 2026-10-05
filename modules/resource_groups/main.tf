@@ -17,3 +17,8 @@ resource "azurerm_resource_group" "monitor" {
   name     = "rg-${var.workload}-monitor"
   location = var.location
 }
+
+resource "azurerm_resource_group" "backup" {
+  name     = "rg-${var.workload}-backup"
+  location = var.location
+}
