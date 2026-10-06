@@ -1,47 +1,41 @@
+using Microsoft.EntityFrameworkCore;
+using Order.API;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults & Aspire client integrations.
+// Add Aspire service defaults & PostgreSQL EF Core integration
 builder.AddServiceDefaults();
-
-// Add services to the container.
-builder.Services.AddProblemDetails();
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.AddNpgsqlDbContext<OrdersDbContext>("ordersdb");
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseExceptionHandler();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-app.MapGet("/", () => "API service is running. Navigate to /weatherforecast to see sample data.");
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
 app.MapDefaultEndpoints();
 
-app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+// Auto-create database schema on startup for sandbox simplicity
+using (var scope = app.Services.CreateScope())
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    var db = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+    await db.Database.EnsureCreatedAsync();
 }
+
+app.MapGet("/orders", async (OrdersDbContext db) => 
+    await db.Orders.OrderByDescending(o => o.CreatedAt).ToListAsync());
+
+app.MapPost("/orders", async (CreateOrderRequest request, OrdersDbContext db) =>
+{
+    var order = new OrderEntity
+    {
+        ProductId = request.ProductId,
+        Quantity = request.Quantity,
+        TotalPrice = request.Quantity * request.UnitPrice,
+        Status = "Pending",
+        CreatedAt = DateTime.UtcNow
+    };
+
+    db.Orders.Add(order);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/orders/{order.Id}", order);
+});
+
+app.Run();

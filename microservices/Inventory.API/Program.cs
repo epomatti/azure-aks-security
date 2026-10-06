@@ -1,41 +1,28 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.AddServiceDefaults();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapDefaultEndpoints();
 
-app.UseHttpsRedirection();
-
-var summaries = new[]
+// In-memory stock store for testing
+var stock = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    ["WIDGET-01"] = 50,
+    ["GADGET-02"] = 10,
+    ["THING-03"] = 0
 };
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/inventory/{productId}", (string productId) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    if (stock.TryGetValue(productId, out var qty))
+    {
+        return Results.Ok(new { ProductId = productId, QuantityOnHand = qty });
+    }
+    return Results.NotFound();
+});
+
+app.MapGet("/inventory", () => Results.Ok(stock));
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

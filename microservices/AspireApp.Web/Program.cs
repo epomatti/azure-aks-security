@@ -19,6 +19,13 @@ builder.Services.AddHttpClient<WeatherApiClient>(client =>
         client.BaseAddress = new("https+http://apiservice");
     });
 
+// Add typed clients pointing to Aspire service names
+builder.Services.AddHttpClient<OrderApiClient>(client => 
+    client.BaseAddress = new("http://order-api"));
+
+builder.Services.AddHttpClient<InventoryApiClient>(client => 
+    client.BaseAddress = new("http://inventory-api"));
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
